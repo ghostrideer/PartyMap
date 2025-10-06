@@ -72,7 +72,48 @@ if (window.gsap) {
   if (nextM) nextM.addEventListener('click', () => scrollByCard(1));
 })();
 
-// Fülek közti váltás (Bejelentkezés / Regisztráció)
+// Egyszerű mock autentikáció localStorage segítségével
+const USERS_KEY = 'dma_users';
+const SESSION_KEY = 'dma_session';
+
+function readUsers() {
+  try {
+    return JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function writeUsers(users) {
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
+
+function saveSession(email) {
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ email, ts: Date.now() }));
+}
+
+function readSession() {
+  try { return JSON.parse(localStorage.getItem(SESSION_KEY)); } catch (e) { return null; }
+}
+
+// Session-alapú átirányítások/CTA módosítás
+(function sessionRouting(){
+  const session = readSession();
+  // Ha van session és login/reg oldalon vagyunk, irány a térkép
+  const isLoginPage = !!document.getElementById('form-login');
+  const isRegisterPage = !!document.getElementById('form-register');
+  if (session && (isLoginPage || isRegisterPage)) {
+    window.location.href = 'map.html';
+    return;
+  }
+  // Landing CTA: ha be vagy jelentkezve, a gomb menjen közvetlen a térképre
+  if (session) {
+    const cta = document.querySelector('a.cta-primary[href="register.html"]');
+    if (cta) cta.setAttribute('href', 'map.html');
+  }
+})();
+
+// Regisztráció / Bejelentkezés tabok (ha jelen vannak)
 const tabLogin = document.getElementById('tab-login');
 const tabRegister = document.getElementById('tab-register');
 const formLogin = document.getElementById('form-login');
@@ -93,25 +134,6 @@ if (tabLogin && tabRegister && formLogin && formRegister) {
   });
 }
 
-// Egyszerű mock autentikáció localStorage segítségével
-const USERS_KEY = 'dma_users';
-
-function readUsers() {
-  try {
-    return JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-  } catch (e) {
-    return {};
-  }
-}
-
-function writeUsers(users) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
-
-function saveSession(email) {
-  localStorage.setItem('dma_session', JSON.stringify({ email, ts: Date.now() }));
-}
-
 // Regisztráció
 const regForm = document.getElementById('form-register');
 if (regForm) {
@@ -130,8 +152,10 @@ if (regForm) {
     }
     users[email] = { password };
     writeUsers(users);
+    saveSession(email);
     ok.classList.remove('hidden');
-    setTimeout(() => tabLogin && tabLogin.click(), 500);
+    // Rövid késleltetés után irány a térkép
+    setTimeout(() => window.location.href = 'map.html', 400);
   });
 }
 
