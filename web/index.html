@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sötét Térkép Alkalmazás</title>
+    <title>Party Map</title>
     <!-- Stílusok és könyvtárak -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css" />
@@ -12,41 +12,224 @@
     <!-- Navigáció -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-md border-b border-white/10">
       <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <a href="index.html" class="font-bold text-[#a855f7] drop-shadow-[0_0_8px_#a855f7]">Sötét Térkép</a>
+        <a href="index.html" class="font-bold text-[#a855f7] drop-shadow-[0_0_8px_#a855f7]">Party Map</a>
         <div class="flex items-center gap-4 text-sm">
           <a class="hover:text-[#a855f7]" href="index.html">Kezdőlap</a>
           <a class="hover:text-[#a855f7]" href="login.html">Bejelentkezés</a>
           <a class="hover:text-[#a855f7]" href="register.html">Regisztráció</a>
-          <a class="hover:text-[#a855f7]" href="map.html">Térkép</a>
         </div>
       </div>
     </nav>
 
     <!-- Hős szekció -->
-    <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <!-- Parallax háttér pontok (dekoráció) -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden select-none">
+      <!-- Parallax háttér rétegek -->
       <div id="bg-dots" class="pointer-events-none absolute inset-0 opacity-30"></div>
+      <div class="parallax pointer-events-none absolute -top-24 -left-24 w-[42rem] h-[42rem] rounded-full neon-blob blur-3xl opacity-40" data-depth="0.08"></div>
+      <div class="parallax pointer-events-none absolute -bottom-32 -right-32 w-[36rem] h-[36rem] rounded-full cyan-blob blur-3xl opacity-40" data-depth="0.05"></div>
+      <div class="parallax pointer-events-none absolute top-1/3 -right-10 w-60 h-60 rounded-full glass-ring" data-depth="0.12"></div>
+
       <div class="mt-14 w-full max-w-3xl px-6 text-center">
-        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">
-           Minden buli a zsebedben
-        </h1>
-        <p class="mt-4 text-white/80 text-base md:text-lg">
-          Egy modern applikáció, ahol a közeli helyek gyorsan
-          megtalálhatók. Térképes nézet, egyszerű használat.
-        </p>
-        <div class="mt-8">
-          <a
-            href="register.html"
-            class="inline-flex items-center gap-2 bg-[#a855f7] text-white px-6 py-3 rounded-lg hover:shadow-[0_0_20px_#a855f7] transition"
-          >
-            Vágjunk bele
-          </a>
+        <div id="hero-card" class="mx-auto max-w-2xl rounded-2xl glass-panel p-8 md:p-10 border border-white/10">
+          <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight drop-shadow-[0_0_20px_rgba(168,85,247,0.35)]">
+             Minden buli a zsebedben
+          </h1>
+          <p class="mt-4 text-white/80 text-base md:text-lg leading-relaxed">
+            Fedezd fel a környék legjobb helyeit másodpercek alatt: kocsmák, bárok, klubok – valódi értékelésekkel, ár jelzéssel és gyors útvonal‑indítással.
+          </p>
+          <div class="mt-8 flex flex-col items-center justify-center gap-3">
+            <a
+              href="register.html"
+              class="cta-primary inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl w-full max-w-xl"
+            >
+              Vágjunk bele
+            </a>
+          </div>
+          <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+            <div class="feature glass-chip" data-animate>Közeli helyek pár koppintásra</div>
+            <div class="feature glass-chip" data-animate>Valós értékelések és ár kategóriák</div>
+            <div class="feature glass-chip" data-animate>Gyors útvonal és megnyitási idők</div>
+          </div>
+        </div>
+
+        <div class="mt-12 flex items-center justify-center opacity-70">
+          <div class="scroll-indicator">
+            <span></span>
+          </div>
         </div>
       </div>
     </header>
+
+    <!-- Hogyan működik -->
+    <section class="relative py-16">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-2xl font-semibold mb-6">Hogyan működik?</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="p-6 rounded-2xl glass-panel border border-white/10" data-animate>
+            <div class="text-[#a855f7] font-semibold mb-2">1. Nyisd meg</div>
+            <p class="text-white/75 text-sm">Megmutatjuk a közelben lévő helyeket, amik passzolnak az estédhez.</p>
+          </div>
+          <div class="p-6 rounded-2xl glass-panel border border-white/10" data-animate>
+            <div class="text-[#06b6d4] font-semibold mb-2">2. Válassz</div>
+            <p class="text-white/75 text-sm">Nézd meg az értékeléseket és az árkategóriát, majd válassz könnyedén.</p>
+          </div>
+          <div class="p-6 rounded-2xl glass-panel border border-white/10" data-animate>
+            <div class="text-[#f59e0b] font-semibold mb-2">3. Indulj</div>
+            <p class="text-white/75 text-sm">Egy koppintás, és már indul is az útvonal a kiválasztott helyre.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vélemények – Carousel -->
+    <section class="relative py-16">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-2xl font-semibold">Mit mondanak a felhasználók?</h2>
+          <div class="hidden md:flex items-center gap-2">
+            <button id="t-prev" class="glass-chip px-3 py-2">◀</button>
+            <button id="t-next" class="glass-chip px-3 py-2">▶</button>
+          </div>
+        </div>
+        <div id="testi" class="overflow-x-auto overflow-y-hidden no-scrollbar">
+          <div class="flex gap-4 md:gap-6 snap-x snap-mandatory">
+            <!-- Card 1 -->
+            <article class="min-w-[280px] md:min-w-[340px] snap-start p-6 md:p-7 rounded-2xl glass-panel border border-white/10" data-animate>
+              <div class="flex items-center gap-3 mb-4">
+                <img src="https://i.pravatar.cc/80?img=32" alt="Anna avatár" class="w-12 h-12 rounded-full border border-white/20" />
+                <div>
+                  <div class="font-semibold">Anna</div>
+                  <div class="text-xs text-white/60">Miskolc</div>
+                </div>
+              </div>
+              <div class="flex items-center text-amber-300 mb-3" aria-label="Értékelés: 5/5"><span>★★★★★</span></div>
+              <p class="text-white/80 text-sm">Pár perc alatt megtaláltuk a hangulathoz passzoló bárt.</p>
+            </article>
+            <!-- Card 2 -->
+            <article class="min-w-[280px] md:min-w-[340px] snap-start p-6 md:p-7 rounded-2xl glass-panel border border-white/10" data-animate>
+              <div class="flex items-center gap-3 mb-4">
+                <img src="https://i.pravatar.cc/80?img=15" alt="Bence avatár" class="w-12 h-12 rounded-full border border-white/20" />
+                <div>
+                  <div class="font-semibold">Bence</div>
+                  <div class="text-xs text-white/60">Budapest</div>
+                </div>
+              </div>
+              <div class="flex items-center text-amber-300 mb-3" aria-label="Értékelés: 4/5"><span>★★★★☆</span></div>
+              <p class="text-white/80 text-sm">Végre nem kell böngészni: ár és értékelés egy helyen.</p>
+            </article>
+            <!-- Card 3 -->
+            <article class="min-w-[280px] md:min-w-[340px] snap-start p-6 md:p-7 rounded-2xl glass-panel border border-white/10" data-animate>
+              <div class="flex items-center gap-3 mb-4">
+                <img src="https://i.pravatar.cc/80?img=48" alt="Lili avatár" class="w-12 h-12 rounded-full border border-white/20" />
+                <div>
+                  <div class="font-semibold">Lili</div>
+                  <div class="text-xs text-white/60">Debrecen</div>
+                </div>
+              </div>
+              <div class="flex items-center text-amber-300 mb-3" aria-label="Értékelés: 5/5"><span>★★★★★</span></div>
+              <p class="text-white/80 text-sm">Szép, gyors, és tényleg hasznos társas estékhez.</p>
+            </article>
+            <!-- Card 4 -->
+            <article class="min-w-[280px] md:min-w-[340px] snap-start p-6 md:p-7 rounded-2xl glass-panel border border-white/10" data-animate>
+              <div class="flex items-center gap-3 mb-4">
+                <img src="https://i.pravatar.cc/80?img=22" alt="Márk avatár" class="w-12 h-12 rounded-full border border-white/20" />
+                <div>
+                  <div class="font-semibold">Márk</div>
+                  <div class="text-xs text-white/60">Győr</div>
+                </div>
+              </div>
+              <div class="flex items-center text-amber-300 mb-3" aria-label="Értékelés: 4/5"><span>★★★★☆</span></div>
+              <p class="text-white/80 text-sm">Könnyű használni, a helyek gyorsan betöltnek.</p>
+            </article>
+            <!-- Card 5 -->
+            <article class="min-w-[280px] md:min-w-[340px] snap-start p-6 md:p-7 rounded-2xl glass-panel border border-white/10" data-animate>
+              <div class="flex items-center gap-3 mb-4">
+                <img src="https://i.pravatar.cc/80?img=5" alt="Réka avatár" class="w-12 h-12 rounded-full border border-white/20" />
+                <div>
+                  <div class="font-semibold">Réka</div>
+                  <div class="text-xs text-white/60">Pécs</div>
+                </div>
+              </div>
+              <div class="flex items-center text-amber-300 mb-3" aria-label="Értékelés: 5/5"><span>★★★★★</span></div>
+              <p class="text-white/80 text-sm">Baráti estékhez tökéletes, jók az ajánlások.</p>
+            </article>
+            <!-- Card 6 -->
+            <article class="min-w-[280px] md:min-w-[340px] snap-start p-6 md:p-7 rounded-2xl glass-panel border border-white/10" data-animate>
+              <div class="flex items-center gap-3 mb-4">
+                <img src="https://i.pravatar.cc/80?img=9" alt="Tomi avatár" class="w-12 h-12 rounded-full border border-white/20" />
+                <div>
+                  <div class="font-semibold">Tomi</div>
+                  <div class="text-xs text-white/60">Szeged</div>
+                </div>
+              </div>
+              <div class="flex items-center text-amber-300 mb-3" aria-label="Értékelés: 4/5"><span>★★★★☆</span></div>
+              <p class="text-white/80 text-sm">Szép dizájn, egyszerű használat, ajánlom.</p>
+            </article>
+          </div>
+        </div>
+        <!-- Mobile arrows -->
+        <div class="mt-4 flex md:hidden items-center justify-center gap-2">
+          <button id="t-prev-m" class="glass-chip px-4 py-2">◀</button>
+          <button id="t-next-m" class="glass-chip px-4 py-2">▶</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- GYIK -->
+    <section class="relative py-16">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-2xl font-semibold mb-6">Gyakori kérdések</h2>
+        <div class="space-y-4">
+          <details class="rounded-2xl glass-panel border border-white/10 p-4" data-animate>
+            <summary class="cursor-pointer font-medium">Ingyenes az alkalmazás?</summary>
+            <p class="mt-2 text-white/75 text-sm">Igen, az alap funkciók mindenki számára elérhetők.</p>
+          </details>
+          <details class="rounded-2xl glass-panel border border-white/10 p-4" data-animate>
+            <summary class="cursor-pointer font-medium">Mennyi adatot használ?</summary>
+            <p class="mt-2 text-white/75 text-sm">Nagyon kevés adatforgalommal működik, mobilon is kényelmes.</p>
+          </details>
+          <details class="rounded-2xl glass-panel border border-white/10 p-4" data-animate>
+            <summary class="cursor-pointer font-medium">Milyen városokban használható?</summary>
+            <p class="mt-2 text-white/75 text-sm">Fókuszban a hazai városok, de folyamatosan bővítünk.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mini bemutató szekció -->
+    <section class="relative py-16">
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="mx-auto max-w-5xl h-px bg-gradient-to-r from-transparent via-[#a855f7]/40 to-transparent"></div>
+      </div>
+      <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-2xl glass-panel border border-white/10" data-animate>
+          <div class="text-[#a855f7] font-semibold mb-2">Keresd meg gyorsan</div>
+          <p class="text-white/75 text-sm">Nyisd meg az appot és már látod is a legközelebbi helyeket a környékeden.</p>
+        </div>
+        <div class="p-6 rounded-2xl glass-panel border border-white/10" data-animate>
+          <div class="text-[#06b6d4] font-semibold mb-2">Tudd, mire számíthatsz</div>
+          <p class="text-white/75 text-sm">Értékelések és ár jelzések segítenek választani a társaságnak megfelelőt.</p>
+        </div>
+        <div class="p-6 rounded-2xl glass-panel border border-white/10" data-animate>
+          <div class="text-[#f59e0b] font-semibold mb-2">Indulj azonnal</div>
+          <p class="text-white/75 text-sm">Egy koppintással útvonalat indíthatsz a kiválasztott helyre.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lábléc -->
+    <footer class="border-t border-white/10 py-8">
+      <div class="max-w-6xl mx-auto px-6 text-sm text-white/60 flex items-center justify-between">
+        <div>© <span id="year"></span> Party Map</div>
+        <div class="flex gap-4">
+          <a href="login.html" class="hover:text-[#a855f7]">Bejelentkezés</a>
+          <a href="register.html" class="hover:text-[#a855f7]">Regisztráció</a>
+        </div>
+      </div>
+    </footer>
 
     <!-- Könyvtárak és saját kód -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="script.js"></script>
   </body>
-  </html>
+</html>

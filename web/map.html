@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sötét térkép</title>
+    <title>Party Map</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="stylesheet" href="style.css" />
@@ -12,7 +12,11 @@
 <div class="relative w-screen h-screen">
   <div id="sidebar" class="sidebar fixed left-4 top-4 bottom-4 w-72 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-3 overflow-y-auto z-[1500]">
     <div class="flex items-center justify-between mb-2">
-      <h2 class="text-lg font-semibold text-[#a855f7]">Közeli helyek</h2>
+      <h2 class="text-lg font-semibold text-[#a855f7]">Helyek</h2>
+    </div>
+    <div class="flex items-center gap-2 mb-3">
+      <button id="tab-nearby" class="flex-1 px-3 py-2 rounded-lg bg-white/10 text-sm">Közeli</button>
+      <button id="tab-favs" class="flex-1 px-3 py-2 rounded-lg bg-white/5 text-sm">Kedvencek <span id="fav-count" class="text-white/60"></span></button>
     </div>
     <ul id="places-list" class="space-y-2"></ul>
   </div>
@@ -65,7 +69,6 @@
   </div>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>window.__DMA_MAP__=true;</script>
-<script src="script.js"></script>
+<script src="map.js"></script>
 </body>
 </html>

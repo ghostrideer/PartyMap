@@ -1,0 +1,8 @@
+﻿[
+  {
+    "name": "EXAMPLE NAME TO OVERRIDE",
+    "coordinates": [47.4979, 19.0402],
+    "rating": 4.5,
+    "price": 2
+  }
+]
