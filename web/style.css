@@ -1,0 +1,82 @@
+/* Alap stílusok és üveghatás beállítása */
+html, body, #map {
+  height: 100%;
+}
+
+.leaflet-container {
+  background: #0a0a0a;
+  position: relative;
+  z-index: 1;
+}
+
+.leaflet-marker-icon.neon {
+  filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 14px #a855f7);
+}
+
+/* Halvány neon pontok a nyitóképernyőn (parallax) */
+#bg-dots {
+  background-image: radial-gradient(#a855f733 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+/* A térképen ne lehessen kijelölni szöveget (jobb felhasználói élmény) */
+.leaflet-container,
+.leaflet-pane,
+.leaflet-control {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* A popup tartalma továbbra is kijelölhető marad (hasznos cím másolásához) */
+.leaflet-popup-content {
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Leaflet popup – glassmorphism stílus a dizájnhoz igazítva */
+.leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.35);
+}
+.leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.leaflet-popup-content {
+  margin: 10px 14px;
+}
+.leaflet-popup-close-button {
+  color: #fff !important;
+  text-shadow: 0 0 8px #000;
+}
+
+/* Oldalsáv összehúzott állapot animációhoz */
+.sidebar {
+  transition: transform 0.3s ease;
+  z-index: 1500;
+}
+.sidebar { /* görgetősáv elrejtése, görgetés meghagyása */
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;    /* Firefox */
+}
+.sidebar::-webkit-scrollbar { /* WebKit */
+  display: none;
+}
+.sidebar.collapsed {
+  /* Csússzon ki úgy, hogy a fogantyú (kb. 12px) látszódjon */
+  transform: translateX(calc(-100% + 12px));
+}
+
+/* Térkép renderelés (move/zoom) közben ideiglenesen elrejtjük a sávot a bugok elkerülésére */
+.sidebar.hidden-during-move {
+  opacity: 0;
+  pointer-events: none;
+}

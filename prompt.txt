@@ -1,0 +1,75 @@
+You are my coding assistant.  
+We are building a **dark-theme, modern, neon-purple styled webapp** with glassmorphism and smooth animations.  
+The app should look like a real project, but keep the stack **simple** (HTML, CSS, JS, TailwindCSS, Leaflet.js, GSAP).  
+Do not use React, Next.js, or heavy frameworks — it should look like students coded it.  
+
+Follow the steps **one by one (Step 0, Step 1, ...)** and stop after each step.  
+Do not skip ahead. After each step, I will say “continue”.  
+
+---
+
+### Tech Stack Rules
+- HTML + TailwindCSS for UI  
+- Vanilla JS for logic (no frameworks)  
+- Leaflet.js for the map (dark theme, Carto Dark Matter tiles)  
+- GSAP for animations (sidebar, fade, parallax)  
+- LocalStorage for mock auth (email + password)  
+- Colors: dark background (#0a0a0a), neon purple (#a855f7), cyan (#06b6d4), white text  
+- Style: dark, modern, neon, glass effect panels with backdrop blur  
+
+---
+
+### Step-by-step tasks
+
+**Step 0 – Project Setup**  
+- Create an `index.html`, `style.css`, and `script.js` file.  
+- Link TailwindCSS via CDN.  
+- Link GSAP via CDN.  
+- Link Leaflet.js via CDN.  
+- Make sure the page background is black (#0a0a0a) with white text.  
+- Test that Tailwind is working by writing a purple neon headline “Dark Map App”.
+
+---
+
+**Step 1 – Landing Page + Auth UI (mock auth)**  
+- Create a fullscreen landing page with a glassmorphism card in the center.  
+- Card should have two tabs: Login and Register.  
+- Inside: Email + Password input, and a button.  
+- Style: rounded-xl, backdrop blur, neon purple border glow on hover.  
+- For now: when user logs in/registers, save data to localStorage.  
+- If login successful → redirect to `map.html`.
+
+---
+
+**Step 2 – Map Page Skeleton**  
+- Create `map.html`.  
+- Fullscreen dark map (Leaflet.js with Carto Dark Matter tiles).  
+- Detect user geolocation and center map there.  
+- Add a glowing neon marker for the user’s location.  
+
+---
+
+**Step 3 – Sidebar List (fake places)**  
+- Add a glassmorphism sidebar (left side, 300px wide).  
+- Load fake data from a `places.json` file (name, type, coordinates, price).  
+- Show places sorted by distance (closest first).  
+- Each item: neon hover effect, clicking scrolls map to that marker.  
+
+---
+
+**Step 4 – Place Info Card + Animations**  
+- When a place is clicked, fade out the map slightly and fade in a glass info card in the center.  
+- Card shows: name, address, price, rating, image.  
+- Add GSAP fade/slide animation.  
+
+---
+
+**Step 5 – Polishing UI**  
+- Neon glass buttons with hover animations.  
+- Parallax effect on the landing page background (using GSAP).  
+- Smooth sidebar slide-in animation.  
+- Responsive: mobile = sidebar collapses into a bottom drawer.  
+
+---
+
+Stop after Step 0 and wait for my “continue”.  

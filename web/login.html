@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bejelentkezés – Sötét Térkép</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-[#0a0a0a] text-white min-h-screen">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-md border-b border-white/10">
+      <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+        <a href="index.html" class="font-bold text-[#a855f7] drop-shadow-[0_0_8px_#a855f7]">Sötét Térkép</a>
+        <div class="flex items-center gap-4 text-sm">
+          <a class="hover:text-[#a855f7]" href="index.html">Kezdőlap</a>
+          <a class="hover:text-[#a855f7]" href="register.html">Regisztráció</a>
+          <a class="hover:text-[#a855f7]" href="map.html">Térkép</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="min-h-screen flex items-center justify-center pt-14">
+      <div id="auth-card" class="w-full max-w-md bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+        <h1 class="text-2xl font-semibold mb-4 text-[#a855f7]">Bejelentkezés</h1>
+        <form id="form-login" class="space-y-4">
+          <div>
+            <label for="login-email" class="text-sm">E-mail</label>
+            <input id="login-email" type="email" required placeholder="E-mail címed" class="mt-1 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+          </div>
+          <div>
+            <label for="login-password" class="text-sm">Jelszó</label>
+            <input id="login-password" type="password" required placeholder="Jelszavad" class="mt-1 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+          </div>
+          <button type="submit" class="w-full mt-2 bg-[#a855f7] text-white rounded-lg py-2 hover:shadow-[0_0_20px_#a855f7] transition">Bejelentkezés</button>
+          <p id="login-error" class="text-red-400 text-sm hidden">Hibás e-mail vagy jelszó.</p>
+          <p class="text-xs text-white/60">Nincs fiókod? <a class="text-[#a855f7] underline" href="register.html">Regisztrálj</a>.</p>
+        </form>
+      </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

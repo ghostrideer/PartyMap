@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sötét térkép</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-[#0a0a0a] text-white min-h-screen">
+<div class="relative w-screen h-screen">
+  <div id="sidebar" class="sidebar fixed left-4 top-4 bottom-4 w-72 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-3 overflow-y-auto z-[1500]">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="text-lg font-semibold text-[#a855f7]">Közeli helyek</h2>
+    </div>
+    <ul id="places-list" class="space-y-2"></ul>
+  </div>
+  <!-- Lebegő gomb bal alsó sarokban az oldalsáv kapcsolásához -->
+  <button
+    id="sidebar-fab"
+    class="fixed left-4 bottom-4 z-[2000] bg-[#a855f7] text-white rounded-full w-12 h-12 shadow-[0_0_14px_#a855f7] flex items-center justify-center hover:shadow-[0_0_20px_#a855f7] transition"
+    title="Oldalsáv ki/be"
+    aria-label="Oldalsáv ki/be"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+      <path d="M4 6.75A.75.75 0 0 1 4.75 6h14.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 6.75Zm0 5.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 12Zm0 5.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H4.75a.75.75 0 0 1-.75-.75Z"/>
+    </svg>
+  </button>
+  <div id="map" class="w-full h-full"></div>
+  <!-- Helypontosság segédgombok (alapból rejtve) -->
+  <div id="gps-tools" class="hidden fixed left-4 bottom-24 z-[2000] flex flex-col gap-2">
+    <button id="gps-retry" class="bg-black/50 hover:bg-black/70 text-white rounded-md px-3 py-2 border border-white/10">
+      Újrapróbálás (GPS)
+    </button>
+    <button id="manual-set" class="bg-black/50 hover:bg-black/70 text-white rounded-md px-3 py-2 border border-white/10">
+      Kézi hely beállítása
+    </button>
+    <div id="accuracy-badge" class="mt-1 text-xs text-white/70"></div>
+  </div>
+  <!-- Titkos kapcsoló gomb jobb felső sarokban -->
+  <button
+    id="tools-toggle"
+    class="fixed right-4 top-4 z-[2000] bg-black/50 hover:bg-black/70 text-white rounded-full w-10 h-10 border border-white/10 flex items-center justify-center"
+    title="Eszközök"
+    aria-label="Eszközök"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+      <path d="M11.983 2.25a.75.75 0 0 1 .734.598l.33 1.652a7.46 7.46 0 0 1 1.705.706l1.49-.86a.75.75 0 0 1 .953.187l1.5 1.95a.75.75 0 0 1-.068.983l-1.18 1.2c.137.37.24.756.305 1.153l1.645.33a.75.75 0 0 1 .6.735v2.45a.75.75 0 0 1-.6.735l-1.645.33a7.426 7.426 0 0 1-.305 1.153l1.18 1.2a.75.75 0 0 1 .068.983l-1.5 1.95a.75.75 0 0 1-.953.187l-1.49-.86a7.46 7.46 0 0 1-1.705.706l-.33 1.652a.75.75 0 0 1-.734.598h-2.45a.75.75 0 0 1-.735-.598l-.33-1.652a7.46 7.46 0 0 1-1.705-.706l-1.49.86a.75.75 0 0 1-.953-.187l-1.5-1.95a.75.75 0 0 1 .068-.983l1.18-1.2a7.426 7.426 0 0 1-.305-1.153l-1.645-.33a.75.75 0 0 1-.6-.735v-2.45c0-.36.254-.667.6-.735l1.645-.33c.065-.397.168-.783.305-1.153l-1.18-1.2a.75.75 0 0 1-.068-.983l1.5-1.95a.75.75 0 0 1 .953-.187l1.49.86c.539-.302 1.111-.54 1.705-.706l.33-1.652a.75.75 0 0 1 .735-.598h2.45Zm.242 6a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Z"/>
+    </svg>
+  </button>
+  <div id="info-overlay" class="pointer-events-none absolute inset-0 hidden">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div id="info-card" class="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-xl bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-[0_0_30px_#a855f7]">
+      <div class="relative">
+        <img id="info-image" src="" alt="place" class="w-full h-48 object-cover" />
+        <button id="info-close" class="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white rounded-full px-3 py-1">✕</button>
+      </div>
+      <div class="p-4">
+        <h3 id="info-name" class="text-xl font-semibold text-white"></h3>
+        <p id="info-address" class="text-sm text-white/70"></p>
+        <div class="mt-2 text-sm">Ár: <span id="info-price" class="text-[#a855f7]"></span> · Értékelés: <span id="info-rating" class="text-amber-300"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>window.__DMA_MAP__=true;</script>
+<script src="script.js"></script>
+</body>
+</html>

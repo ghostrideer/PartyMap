@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sötét Térkép Alkalmazás</title>
+    <!-- Stílusok és könyvtárak -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-[#0a0a0a] text-white min-h-screen">
+    <!-- Navigáció -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-md border-b border-white/10">
+      <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+        <a href="index.html" class="font-bold text-[#a855f7] drop-shadow-[0_0_8px_#a855f7]">Sötét Térkép</a>
+        <div class="flex items-center gap-4 text-sm">
+          <a class="hover:text-[#a855f7]" href="index.html">Kezdőlap</a>
+          <a class="hover:text-[#a855f7]" href="login.html">Bejelentkezés</a>
+          <a class="hover:text-[#a855f7]" href="register.html">Regisztráció</a>
+          <a class="hover:text-[#a855f7]" href="map.html">Térkép</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hős szekció -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <!-- Parallax háttér pontok (dekoráció) -->
+      <div id="bg-dots" class="pointer-events-none absolute inset-0 opacity-30"></div>
+      <div class="mt-14 w-full max-w-3xl px-6 text-center">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">
+           Minden buli a zsebedben
+        </h1>
+        <p class="mt-4 text-white/80 text-base md:text-lg">
+          Egy modern applikáció, ahol a közeli helyek gyorsan
+          megtalálhatók. Térképes nézet, egyszerű használat.
+        </p>
+        <div class="mt-8">
+          <a
+            href="register.html"
+            class="inline-flex items-center gap-2 bg-[#a855f7] text-white px-6 py-3 rounded-lg hover:shadow-[0_0_20px_#a855f7] transition"
+          >
+            Vágjunk bele
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Könyvtárak és saját kód -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+  </html>
