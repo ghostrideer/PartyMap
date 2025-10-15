@@ -1,7 +1,11 @@
 /* Alap stílusok és üveghatás beállítása */
+<<<<<<< HEAD
 html,
 body,
 #map {
+=======
+html, body, #map {
+>>>>>>> d884e1b07bd10fa48b8517c107a8a2cecc319f51
   height: 100%;
 }
 
@@ -11,6 +15,7 @@ body,
   z-index: 1;
 }
 
+<<<<<<< HEAD
 /* lila szín zöldre változtatva */
 .leaflet-marker-icon.neon {
   filter: drop-shadow(0 0 8px #22c55e) drop-shadow(0 0 14px #22c55e);
@@ -20,6 +25,15 @@ body,
 /* lila szín zöldre változtatva */
 #bg-dots {
   background-image: radial-gradient(#22c55e33 1px, transparent 1px);
+=======
+.leaflet-marker-icon.neon {
+  filter: drop-shadow(0 0 8px #a855f7) drop-shadow(0 0 14px #a855f7);
+}
+
+/* Halvány neon pontok a nyitóképernyőn (parallax) */
+#bg-dots {
+  background-image: radial-gradient(#a855f733 1px, transparent 1px);
+>>>>>>> d884e1b07bd10fa48b8517c107a8a2cecc319f51
   background-size: 24px 24px;
   background-position: 0 0, 12px 12px;
 }
@@ -41,7 +55,10 @@ body,
 }
 
 /* Leaflet popup – glassmorphism stílus a dizájnhoz igazítva */
+<<<<<<< HEAD
 /* lila szín zöldre változtatva */
+=======
+>>>>>>> d884e1b07bd10fa48b8517c107a8a2cecc319f51
 .leaflet-popup-content-wrapper {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
@@ -49,7 +66,11 @@ body,
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: #fff;
   border-radius: 14px;
+<<<<<<< HEAD
   box-shadow: 0 0 24px rgba(34, 197, 94, 0.35);
+=======
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.35);
+>>>>>>> d884e1b07bd10fa48b8517c107a8a2cecc319f51
 }
 .leaflet-popup-tip {
   background: rgba(255, 255, 255, 0.08);
@@ -68,6 +89,7 @@ body,
   transition: transform 0.3s ease;
   z-index: 1500;
 }
+<<<<<<< HEAD
 .sidebar {
   /* görgetősáv elrejtése, görgetés meghagyása */
   -ms-overflow-style: none; /* IE/Edge */
@@ -75,6 +97,13 @@ body,
 }
 .sidebar::-webkit-scrollbar {
   /* WebKit */
+=======
+.sidebar { /* görgetősáv elrejtése, görgetés meghagyása */
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;    /* Firefox */
+}
+.sidebar::-webkit-scrollbar { /* WebKit */
+>>>>>>> d884e1b07bd10fa48b8517c107a8a2cecc319f51
   display: none;
 }
 .sidebar.collapsed {
@@ -89,6 +118,7 @@ body,
 }
 
 /* ---------- Landing page extra stílusok ---------- */
+<<<<<<< HEAD
 /* lila színek zöldre változtatva */
 .neon-blob {
   background: radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.6), transparent 60%),
@@ -108,19 +138,47 @@ body,
   -webkit-backdrop-filter: blur(8px);
 }
 /* lila színek zöldre változtatva */
+=======
+.neon-blob {
+  background: radial-gradient(circle at 30% 30%, rgba(168,85,247,.6), transparent 60%),
+              radial-gradient(circle at 70% 70%, rgba(168,85,247,.4), transparent 60%);
+}
+.cyan-blob {
+  background: radial-gradient(circle at 60% 40%, rgba(6,182,212,.6), transparent 60%),
+              radial-gradient(circle at 40% 60%, rgba(6,182,212,.4), transparent 60%);
+}
+.glass-ring {
+  border-radius: 9999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 0 40px rgba(168,85,247,0.25) inset, 0 0 20px rgba(6,182,212,0.25) inset;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+>>>>>>> d884e1b07bd10fa48b8517c107a8a2cecc319f51
 .glass-panel {
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+<<<<<<< HEAD
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(34, 197, 94, 0.2);
+=======
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 0 40px rgba(168,85,247,0.2);
+>>>>>>> d884e1b07bd10fa48b8517c107a8a2cecc319f51
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 .glass-panel:hover {
   transform: translateY(-3px);
+<<<<<<< HEAD
   box-shadow: 0 16px 46px rgba(0, 0, 0, 0.5), 0 0 50px rgba(34, 197, 94, 0.28);
   border-color: rgba(34, 197, 94, 0.35) !important;
 }
 /* lila színek zöldre változtatva */
+=======
+  box-shadow: 0 16px 46px rgba(0,0,0,0.5), 0 0 50px rgba(168,85,247,0.28);
+  border-color: rgba(168,85,247,0.35) !important;
+}
+>>>>>>> d884e1b07bd10fa48b8517c107a8a2cecc319f51
 .glass-chip {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -132,6 +190,7 @@ body,
 }
 .glass-chip:hover {
   transform: translateY(-2px);
+<<<<<<< HEAD
   box-shadow: 0 0 18px rgba(34, 197, 94, 0.35);
   border-color: rgba(34, 197, 94, 0.45);
 }
@@ -141,10 +200,21 @@ body,
   background: linear-gradient(135deg, #22c55e, #06b6d4);
   color: #fff;
   box-shadow: 0 0 16px rgba(34, 197, 94, 0.45);
+=======
+  box-shadow: 0 0 18px rgba(168,85,247,0.35);
+  border-color: rgba(168,85,247,0.45);
+}
+
+.cta-primary {
+  background: linear-gradient(135deg, #a855f7, #06b6d4);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(168,85,247,0.45);
+>>>>>>> d884e1b07bd10fa48b8517c107a8a2cecc319f51
   transition: transform .2s ease, box-shadow .2s ease;
 }
 .cta-primary:hover {
   transform: translateY(-1px);
+<<<<<<< HEAD
   box-shadow: 0 0 26px rgba(34, 197, 94, 0.65);
 }
 /* lila színek zöldre változtatva */
@@ -152,10 +222,19 @@ body,
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.04);
+=======
+  box-shadow: 0 0 26px rgba(168,85,247,0.65);
+}
+.cta-ghost {
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.04);
+>>>>>>> d884e1b07bd10fa48b8517c107a8a2cecc319f51
   transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
 .cta-ghost:hover {
   transform: translateY(-1px);
+<<<<<<< HEAD
   border-color: rgba(34, 197, 94, 0.5);
   box-shadow: 0 0 20px rgba(6, 182, 212, 0.35);
 }
@@ -172,6 +251,20 @@ a:hover {
   width: 26px;
   height: 44px;
   border: 2px solid rgba(255, 255, 255, 0.5);
+=======
+  border-color: rgba(168,85,247,0.5);
+  box-shadow: 0 0 20px rgba(6,182,212,0.35);
+}
+
+/* Link hover neon */
+a:hover { text-shadow: 0 0 8px rgba(168,85,247,0.5); }
+
+/* Scroll indicator */
+.scroll-indicator {
+  width: 26px;
+  height: 44px;
+  border: 2px solid rgba(255,255,255,0.5);
+>>>>>>> d884e1b07bd10fa48b8517c107a8a2cecc319f51
   border-radius: 20px;
   position: relative;
 }
@@ -182,6 +275,7 @@ a:hover {
   width: 4px;
   height: 8px;
   margin-left: -2px;
+<<<<<<< HEAD
   background: #22c55e;
   border-radius: 2px;
   animation: scroll 1.4s infinite;
@@ -217,3 +311,22 @@ a:hover {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+=======
+  background: #a855f7;
+  border-radius: 2px;
+  animation: scroll 1.4s infinite;
+  box-shadow: 0 0 10px #a855f7;
+}
+@keyframes scroll {
+  0% { transform: translate(-50%, 0); opacity: 1; }
+  100% { transform: translate(-50%, 18px); opacity: 0; }
+}
+
+/* Scroll-in animation helpers */
+[data-animate] { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+[data-animate].in-view { opacity: 1; transform: translateY(0); }
+
+/* Hide scrollbar for horizontal containers */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+>>>>>>> d884e1b07bd10fa48b8517c107a8a2cecc319f51
