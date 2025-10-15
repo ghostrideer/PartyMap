@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regisztráció – Party Map</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-[#0a0a0a] text-white min-h-screen">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-md border-b border-white/10">
+      <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+        <a href="index.html" class="font-bold text-[#a855f7] drop-shadow-[0_0_8px_#a855f7]"><img src="img/partymapfeher.png" alt="Party Map" class="w-20 h-auto"></a>
+        <div class="flex items-center gap-4 text-sm">
+          <a class="hover:text-[#a855f7]" href="index.html">Kezdőlap</a>
+          <a class="hover:text-[#a855f7]" href="login.html">Bejelentkezés</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Parallax háttér -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden select-none">
+      <div id="bg-dots" class="pointer-events-none absolute inset-0 opacity-30"></div>
+      <div class="parallax pointer-events-none absolute -top-24 -left-24 w-[42rem] h-[42rem] rounded-full neon-blob blur-3xl opacity-40" data-depth="0.08"></div>
+      <div class="parallax pointer-events-none absolute -bottom-32 -right-32 w-[36rem] h-[36rem] rounded-full cyan-blob blur-3xl opacity-40" data-depth="0.05"></div>
+      <div class="parallax pointer-events-none absolute top-1/3 -right-10 w-60 h-60 rounded-full glass-ring" data-depth="0.12"></div>
+
+      <main class="w-full max-w-md mx-auto px-6 pt-14">
+        <div id="auth-card" class="w-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-8 glass-panel">
+          <h1 class="text-2xl font-semibold mb-4 text-[#a855f7]">Regisztráció</h1>
+          <form id="form-register" class="space-y-4">
+            <div>
+              <label for="reg-email" class="text-sm">E-mail</label>
+              <input id="reg-email" type="email" required placeholder="E-mail címed" class="mt-1 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+            </div>
+            <div>
+              <label for="reg-password" class="text-sm">Jelszó</label>
+              <input id="reg-password" type="password" minlength="4" required placeholder="Legalább 4 karakter" class="mt-1 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+            </div>
+            <button type="submit" class="w-full mt-2 cta-primary text-white rounded-lg py-2 hover:shadow-[0_0_20px_#a855f7] transition">Fiók létrehozása</button>
+            <p id="register-error" class="text-red-400 text-sm hidden">Már létező felhasználó.</p>
+            <p id="register-success" class="text-emerald-400 text-sm hidden">Sikeres regisztráció. Most bejelentkezhetsz.</p>
+            <p class="text-xs text-white/60">Van már fiókod? <a class="text-[#a855f7] underline" href="login.html">Lépj be</a>.</p>
+          </form>
+        </div>
+      </main>
+    </header>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

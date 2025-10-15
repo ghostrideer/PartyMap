@@ -1,0 +1,290 @@
+[
+    {
+      "name": "Dalí Cafe & Bar",
+      "type": "kávézó, bár",
+      "coordinates": [48.10326, 20.78399], 
+      "price": 2,
+      "address": "Miskolc, Déryné utca 10.",
+      "rating": 3.2,
+      "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=640"
+    },
+    {
+      "name": "Garden Cafe & Bar",
+      "type": "kávézó, bár",
+      "coordinates": [48.10317, 20.78729],
+      "price": 2,
+      "address": "Miskolc, Nagy Imre utca 11.",
+      "rating": 4.2,
+      "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Abszurd",
+        "type": "bár",
+        "coordinates": [48.102309911805925, 20.786461290085796],
+        "price": 2,
+        "address": "Miskolc, Széchenyi istván út 52.",
+        "rating": 4.4,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Ötcentes Söröző",
+        "type": "bár, söröző",
+        "coordinates": [48.10226358518741, 20.783856620053843],
+        "price": 3,
+        "address": "Miskolc, Széchenyi István utca 28.",
+        "rating": 4.3,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "El Cactus Tequila Bár",
+        "type": "bár",
+        "coordinates": [48.10207282335412, 20.783605833512347],
+        "price": 3,
+        "address": "Miskolc, Széchenyi István utca 26.",
+        "rating": 4.5,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Ficzak",
+        "type": "bár",
+        "coordinates": [48.10203691338377, 20.78350720395264],
+        "price": 3,
+        "address": "Miskolc, Széchenyi István utca 26.",
+        "rating": 4.8,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Helynekem",
+        "type": "szórakozóhely",
+        "coordinates": [48.10243545242077, 20.784117678298244],
+        "price": 4,
+        "address": "Miskolc, Széchenyi istván út 30.",
+        "rating": 3.9,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Antik Art Café Antikvárium és kávézó",
+        "type": "bár, kávézó, antikvárium",
+        "coordinates": [48.10264468775328, 20.78390039018726],
+        "price": 4,
+        "address": "Miskolc, Déryné utca 2.",
+        "rating": 4.4,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Déryné Presszó",
+        "type": "bár, kávézó",
+        "coordinates": [48.10276178431731, 20.78386111656714],
+        "price": 3,
+        "address": "Miskolc, Déryné utca 2.",
+        "rating": 4.4,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Bermuda Söröző",
+        "type": "bár, söröző",
+        "coordinates": [48.10298678789862, 20.78394958457368],
+        "price": 2,
+        "address": "Miskolc, Déryné utca 6.",
+        "rating": 4.1,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Thália Söröző",
+        "type": "bár, söröző",
+        "coordinates": [48.10304141832436, 20.783971042245835],
+        "price": 3,
+        "address": "Miskolc, Déryné utca 6.",
+        "rating": 4.4,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Intim Presszó",
+        "type": "bár, kávézó",
+        "coordinates": [48.10315605246884, 20.78396903058958],
+        "price": 3,
+        "address": "Miskolc, Déryné utca 8.",
+        "rating": 4.3,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "VH5 Kvaterka Bisztró és Kert",
+        "type": "bár, étterem",
+        "coordinates": [48.10364338589041, 20.77876812977079],
+        "price": 4,
+        "address": "Miskolc, Városház tér 5.",
+        "rating": 4.4,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Grizzly Music Pub és Söröző",
+        "type": "bár",
+        "coordinates": [48.103728017163434, 20.778696380679975],
+        "price": 4,
+        "address": "Miskolc, Városház tér 3.",
+        "rating": 4.4,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Elysium Black Light",
+        "type": "bár",
+        "coordinates": [48.10231487340021, 20.78218669046233],
+        "price": 4,
+        "address": "Miskolc, Széchenyi István utca 12A.",
+        "rating": 5.0,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Viking Sörpáholy",
+        "type": "bár",
+        "coordinates": [48.10218828765108, 20.782333586108958],
+        "price": 3,
+        "address": "Miskolc, Széchenyi István utca 14.",
+        "rating": 4.3,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Red Bar",
+        "type": "bár",
+        "coordinates": [48.10184988694815, 20.785252772504858],
+        "price": 4,
+        "address": "Miskolc, Szemere Bertalan utca 2.",
+        "rating": 3.9,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Forint söröző",
+        "type": "söröző",
+        "coordinates": [48.1018379848543, 20.785420066136222],
+        "price": 3,
+        "address": "Miskolc, Szemere Bertalan utca 2.",
+        "rating": 4.2,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Szomjas Szerda",
+        "type": "bár",
+        "coordinates": [48.10232563534574, 20.78675133467656],
+        "price": 2,
+        "address": "Miskolc, Széchenyi istván út 54.",
+        "rating": 4.3,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Égbolt café & bar",
+        "type": "bár",
+        "coordinates": [48.102586641194215, 20.786263510271063],
+        "price": 4,
+        "address": "Miskolc, Széchenyi istván út 49.",
+        "rating": 4.6,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Sub Rosa Cafe",
+        "type": "bár, kávézó",
+        "coordinates": [48.1026797955045, 20.782855330160913],
+        "price": 4,
+        "address": "Miskolc, Széchenyi István utca 21.",
+        "rating": 4.8,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Suzy Coffee & Cocktail Bár",
+        "type": "bár",
+        "coordinates": [48.10300321150893, 20.78565933649426],
+        "price": 2,
+        "address": "Miskolc, Kazinczy Ferenc utca 2.",
+        "rating": 4.1,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Liverpool Söröző",
+        "type": "söröző",
+        "coordinates": [48.10540199762419, 20.77316092926798],
+        "price": 4,
+        "address": "Miskolc, Kis-Hunyad utca 43.",
+        "rating": 4.6,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "BakterPont",
+        "type": "söröző",
+        "coordinates": [48.100459384799706, 20.714800672929766],
+        "price": 2,
+        "address": "Miskolc, Andrássy Gyula utca 61.",
+        "rating": 4.5,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Kata Presszó",
+        "type": "söröző",
+        "coordinates": [48.100661757160616, 20.713547544557624],
+        "price": 2,
+        "address": "Miskolc, Andrássy Gyula utca 102.",
+        "rating": 4.1,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Red Country Söröző",
+        "type": "söröző",
+        "coordinates": [48.10069941340082, 20.713768579629804],
+        "price": 2,
+        "address": "Miskolc, Kiss tábornok út 2.",
+        "rating": 4.7,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Lila Büfé",
+        "type": "söröző",
+        "coordinates": [48.10072766508494, 20.713744158703243],
+        "price": 2,
+        "address": "Miskolc, Kiss tábornok út 2.",
+        "rating": 4.1,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Fehér Holló Söröző",
+        "type": "söröző",
+        "coordinates": [48.10393080084739, 20.68795423646503],
+        "price": 2,
+        "address": "Miskolc, Kuruc utca 54.",
+        "rating": 4.8,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Rockwell Klub",
+        "type": "szórakozóhely",
+        "coordinates": [48.079838430500146, 20.768437299455723],
+        "price": 4,
+        "address": "Miskolc, Egyetemváros",
+        "rating": 3.8,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Block Klub",
+        "type": "szórakozóhely",
+        "coordinates": [48.10350572514082, 20.777384314292867],
+        "price": 4,
+        "address": "Miskolc, Hunyadi János utca 3.",
+        "rating": 3.1,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Avasi kilátó kávézó",
+        "type": "kávézó, bár",
+        "coordinates": [48.09942333064063, 20.775583480531015],
+        "price": 4,
+        "address": "Miskolc, Avasi TV torony",
+        "rating": 3.8,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    },
+    {
+        "name": "Hill",
+        "type": "szórakozóhely",
+        "coordinates": [48.09792865991962, 20.7844990023836],
+        "price": 1,
+        "address": "Miskolc, Első sor 5.",
+        "rating": 3.2,
+        "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=640"
+    }
+]

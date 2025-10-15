@@ -1,0 +1,13 @@
+{
+  "name": "dark-map-app-tools",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "fetch:places": "node tools/fetch_places.js",
+    "build:places": "node tools/build_places.js",
+    "places": "npm run fetch:places && npm run build:places"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
