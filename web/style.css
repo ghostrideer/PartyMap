@@ -1,0 +1,219 @@
+/* Alap stílusok és üveghatás beállítása */
+html,
+body,
+#map {
+  height: 100%;
+}
+
+.leaflet-container {
+  background: #0a0a0a;
+  position: relative;
+  z-index: 1;
+}
+
+/* lila szín zöldre változtatva */
+.leaflet-marker-icon.neon {
+  filter: drop-shadow(0 0 8px #22c55e) drop-shadow(0 0 14px #22c55e);
+}
+
+/* Halvány neon pontok a nyitóképernyőn (parallax) */
+/* lila szín zöldre változtatva */
+#bg-dots {
+  background-image: radial-gradient(#22c55e33 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+/* A térképen ne lehessen kijelölni szöveget (jobb felhasználói élmény) */
+.leaflet-container,
+.leaflet-pane,
+.leaflet-control {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* A popup tartalma továbbra is kijelölhető marad (hasznos cím másolásához) */
+.leaflet-popup-content {
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Leaflet popup – glassmorphism stílus a dizájnhoz igazítva */
+/* lila szín zöldre változtatva */
+.leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 0 24px rgba(34, 197, 94, 0.35);
+}
+.leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.leaflet-popup-content {
+  margin: 10px 14px;
+}
+.leaflet-popup-close-button {
+  color: #fff !important;
+  text-shadow: 0 0 8px #000;
+}
+
+/* Oldalsáv összehúzott állapot animációhoz */
+.sidebar {
+  transition: transform 0.3s ease;
+  z-index: 1500;
+}
+.sidebar {
+  /* görgetősáv elrejtése, görgetés meghagyása */
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.sidebar::-webkit-scrollbar {
+  /* WebKit */
+  display: none;
+}
+.sidebar.collapsed {
+  /* Csússzon ki úgy, hogy a fogantyú (kb. 12px) látszódjon */
+  transform: translateX(calc(-100% + 12px));
+}
+
+/* Térkép renderelés (move/zoom) közben ideiglenesen elrejtjük a sávot a bugok elkerülésére */
+.sidebar.hidden-during-move {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- Landing page extra stílusok ---------- */
+/* lila színek zöldre változtatva */
+.neon-blob {
+  background: radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.6), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(34, 197, 94, 0.4), transparent 60%);
+}
+.cyan-blob {
+  background: radial-gradient(circle at 60% 40%, rgba(6, 182, 212, 0.6), transparent 60%),
+    radial-gradient(circle at 40% 60%, rgba(6, 182, 212, 0.4), transparent 60%);
+}
+/* lila színek zöldre változtatva */
+.glass-ring {
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 40px rgba(34, 197, 94, 0.25) inset, 0 0 20px rgba(6, 182, 212, 0.25) inset;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+/* lila színek zöldre változtatva */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(34, 197, 94, 0.2);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.glass-panel:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 46px rgba(0, 0, 0, 0.5), 0 0 50px rgba(34, 197, 94, 0.28);
+  border-color: rgba(34, 197, 94, 0.35) !important;
+}
+/* lila színek zöldre változtatva */
+.glass-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  text-align: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.glass-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(34, 197, 94, 0.35);
+  border-color: rgba(34, 197, 94, 0.45);
+}
+
+/* lila színek zöldre változtatva */
+.cta-primary {
+  background: linear-gradient(135deg, #22c55e, #06b6d4);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.45);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.cta-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 26px rgba(34, 197, 94, 0.65);
+}
+/* lila színek zöldre változtatva */
+.cta-ghost {
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.cta-ghost:hover {
+  transform: translateY(-1px);
+  border-color: rgba(34, 197, 94, 0.5);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.35);
+}
+
+/* Link hover neon */
+/* lila szín zöldre változtatva */
+a:hover {
+  text-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+}
+
+/* Scroll indicator */
+/* lila szín zöldre változtatva */
+.scroll-indicator {
+  width: 26px;
+  height: 44px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  position: relative;
+}
+.scroll-indicator span {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 4px;
+  height: 8px;
+  margin-left: -2px;
+  background: #22c55e;
+  border-radius: 2px;
+  animation: scroll 1.4s infinite;
+  box-shadow: 0 0 10px #22c55e;
+}
+@keyframes scroll {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 18px);
+    opacity: 0;
+  }
+}
+
+/* Scroll-in animation helpers */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+[data-animate].in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hide scrollbar for horizontal containers */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
