@@ -61,6 +61,10 @@
               <label for="event-address" class="text-sm block mb-1">Cím</label>
               <input id="event-address" type="text" placeholder="Cím vagy hely" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
             </div>
+            <div>
+              <label for="event-description" class="text-sm block mb-1">Leírás</label>
+              <textarea id="event-description" rows="3" placeholder="Írj le néhány mondatot az eseményről..." class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7] resize-y"></textarea>
+            </div>
             <div class="bg-white/5 rounded-lg p-3 border border-white/10">
               <p class="text-xs text-white/70 mb-2">📍 Pozíció kiválasztása a térképen</p>
               <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mb-2">
@@ -105,6 +109,10 @@
           <div>
             <label for="edit-event-address" class="text-sm block mb-1">Cím</label>
             <input id="edit-event-address" type="text" placeholder="Cím vagy hely" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+          </div>
+          <div>
+            <label for="edit-event-description" class="text-sm block mb-1">Leírás</label>
+            <textarea id="edit-event-description" rows="3" placeholder="Írj le néhány mondatot az eseményről..." class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7] resize-y"></textarea>
           </div>
           <div class="bg-white/5 rounded-lg p-3 border border-white/10">
             <p class="text-xs text-white/70 mb-2">📍 Pozíció módosítása</p>
@@ -221,6 +229,7 @@
                 <div class="text-xs sm:text-sm text-white/70 space-y-1">
                   ${event.address ? `<div class="break-words">📍 ${event.address}</div>` : ''}
                   ${event.date ? `<div>📅 ${new Date(event.date).toLocaleString('hu-HU')}</div>` : ''}
+                  ${event.description ? `<div class="text-white/80 mt-1 break-words">${event.description}</div>` : ''}
                   ${event.coordinates ? `<div class="text-xs text-white/50 break-all sm:break-normal">Koordináták: ${event.coordinates[0].toFixed(4)}, ${event.coordinates[1].toFixed(4)}</div>` : ''}
                 </div>
               </div>
@@ -270,6 +279,7 @@
           const eventData = {
             name: document.getElementById('event-name').value.trim(),
             address: document.getElementById('event-address').value.trim() || '',
+            description: document.getElementById('event-description').value.trim() || '',
             date: document.getElementById('event-date').value || '',
             coordinates: selectedEventCoords,
             creator: session.email,
@@ -347,6 +357,7 @@
 
           document.getElementById('edit-event-name').value = event.name || '';
           document.getElementById('edit-event-address').value = event.address || '';
+          document.getElementById('edit-event-description').value = event.description || '';
           document.getElementById('edit-event-date').value = event.date ? new Date(event.date).toISOString().slice(0, 16) : '';
           document.getElementById('edit-event-index').value = index;
           document.getElementById('edit-event-coords').textContent = event.coordinates 
@@ -446,6 +457,7 @@
                 ...allEvents[originalIndex],
                 name: document.getElementById('edit-event-name').value.trim(),
                 address: document.getElementById('edit-event-address').value.trim() || '',
+                description: document.getElementById('edit-event-description').value.trim() || '',
                 date: document.getElementById('edit-event-date').value || '',
                 coordinates: editingEventCoords || allEvents[originalIndex].coordinates,
                 creatorName: profile.name || session.email,

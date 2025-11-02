@@ -304,10 +304,11 @@ if (L) {
       const m = L.marker(event.coordinates, { icon }).addTo(map)
       const popup = `
         <div style="min-width:200px;max-width:260px">
-          <div style="font-weight:600;color:#a855f7">🎉 ${event.name}</div>
-          <div style="font-size:12px;opacity:.8">${event.address || ""}</div>
-          <div style="font-size:12px;margin-top:4px">${event.date ? new Date(event.date).toLocaleString("hu-HU") : ""}</div>
-          <div style="font-size:11px;opacity:.6;margin-top:2px">Létrehozó: ${event.creatorName || event.creator}</div>
+          <div style="font-weight:600;color:#a855f7;font-size:16px">🎉 ${event.name}</div>
+          <div style="font-size:12px;opacity:.8;margin-top:4px">${event.address || ""}</div>
+          ${event.date ? `<div style="font-size:12px;margin-top:4px">📅 ${new Date(event.date).toLocaleString("hu-HU")}</div>` : ''}
+          ${event.description ? `<div style="font-size:12px;margin-top:6px;opacity:.9;line-height:1.4">${event.description}</div>` : ''}
+          <div style="font-size:11px;opacity:.6;margin-top:6px">Létrehozó: ${event.creatorName || event.creator}</div>
         </div>
       `
       m.bindPopup(popup)
