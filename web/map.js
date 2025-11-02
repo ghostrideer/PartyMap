@@ -61,7 +61,7 @@ if (L) {
   function addNeonMarker(lat, lng) {
     const icon = L.divIcon({
       className: "neon",
-      html: '<div style="width:14px;height:14px;border-radius:9999px;background:#ef4444;box-shadow:0 0 12px #ef4444;"></div>',
+      html: '<div style="width:14px;height:14px;border-radius:9999px;background:#ef4444;box-shadow:0 0 4px #ef4444;"></div>',
       iconSize: [14, 14],
       iconAnchor: [7, 7],
     })
@@ -96,7 +96,7 @@ if (L) {
           if (!userMarker) {
             const icon = L.divIcon({
               className: "neon",
-              html: '<div style="width:14px;height:14px;border-radius:9999px;background:#ef4444;box-shadow:0 0 12px #ef4444;"></div>',
+              html: '<div style="width:14px;height:14px;border-radius:9999px;background:#ef4444;box-shadow:0 0 4px #ef4444;"></div>',
               iconSize: [14, 14],
               iconAnchor: [7, 7],
             })
@@ -166,7 +166,7 @@ if (L) {
           if (!userMarker) {
             const icon = L.divIcon({
               className: "neon",
-              html: '<div style="width:14px;height:14px;border-radius:9999px;background:#ef4444;box-shadow:0 0 12px #ef4444;"></div>',
+              html: '<div style="width:14px;height:14px;border-radius:9999px;background:#ef4444;box-shadow:0 0 4px #ef4444;"></div>',
               iconSize: [14, 14],
               iconAnchor: [7, 7],
             })
@@ -213,7 +213,7 @@ if (L) {
     const r = Math.round(size / 2)
     return L.divIcon({
       className: "neon",
-      html: `<div style="width:${size}px;height:${size}px;border-radius:9999px;background:${color};box-shadow:0 0 10px ${color};"></div>`,
+      html: `<div style="width:${size}px;height:${size}px;border-radius:9999px;background:${color};box-shadow:0 0 4px ${color};"></div>`,
       iconSize: [size, size],
       iconAnchor: [r, r],
     })

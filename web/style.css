@@ -11,9 +11,9 @@ body,
   z-index: 1;
 }
 
-/* lila szín zöldre változtatva */
+/* lila szín zöldre változtatva - csökkentett világítás */
 .leaflet-marker-icon.neon {
-  filter: drop-shadow(0 0 8px #22c55e) drop-shadow(0 0 14px #22c55e);
+  filter: drop-shadow(0 0 3px #22c55e);
 }
 
 /* Halvány neon pontok a nyitóképernyőn (parallax) */
