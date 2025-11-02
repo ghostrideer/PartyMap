@@ -33,13 +33,19 @@
               <label for="reg-email" class="text-sm">E-mail</label>
               <input id="reg-email" type="email" required placeholder="E-mail címed" class="mt-1 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
             </div>
-            <div>
+            <div class="relative">
               <label for="reg-password" class="text-sm">Jelszó</label>
-              <input id="reg-password" type="password" minlength="4" required placeholder="Legalább 4 karakter" class="mt-1 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+              <div class="relative">
+                <input id="reg-password" type="password" minlength="4" required placeholder="Legalább 4 karakter" class="mt-1 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+                <button type="button" id="toggle-reg-password" class="absolute right-2 top-1/2 -translate-y-1/2 mt-0.5 text-white/60 hover:text-white/80 text-sm cursor-pointer" aria-label="Jelszó mutatása">🔒</button>
+              </div>
             </div>
-            <div>
+            <div class="relative">
               <label for="reg-password-confirm" class="text-sm">Jelszó megerősítése</label>
-              <input id="reg-password-confirm" type="password" minlength="4" required placeholder="Add meg újra a jelszavad" class="mt-1 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+              <div class="relative">
+                <input id="reg-password-confirm" type="password" minlength="4" required placeholder="Add meg újra a jelszavad" class="mt-1 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+                <button type="button" id="toggle-reg-password-confirm" class="absolute right-2 top-1/2 -translate-y-1/2 mt-0.5 text-white/60 hover:text-white/80 text-sm cursor-pointer" aria-label="Jelszó mutatása">🔒</button>
+              </div>
             </div>
             <button type="submit" class="w-full mt-2 cta-primary text-white rounded-lg py-2 hover:shadow-[0_0_20px_#a855f7] transition">Fiók létrehozása</button>
             <p id="register-error" class="text-red-400 text-sm hidden">Már létező felhasználó.</p>

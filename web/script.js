@@ -187,3 +187,46 @@ if (loginForm) {
     window.location.href = 'map.html';
   });
 }
+
+// Jelszó mutatása/rejtése gombok
+const toggleLoginPassword = document.getElementById('toggle-login-password');
+if (toggleLoginPassword) {
+  toggleLoginPassword.addEventListener('click', () => {
+    const passwordInput = document.getElementById('login-password');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleLoginPassword.textContent = '🔓';
+    } else {
+      passwordInput.type = 'password';
+      toggleLoginPassword.textContent = '🔒';
+    }
+  });
+}
+
+const toggleRegPassword = document.getElementById('toggle-reg-password');
+if (toggleRegPassword) {
+  toggleRegPassword.addEventListener('click', () => {
+    const passwordInput = document.getElementById('reg-password');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleRegPassword.textContent = '🔓';
+    } else {
+      passwordInput.type = 'password';
+      toggleRegPassword.textContent = '🔒';
+    }
+  });
+}
+
+const toggleRegPasswordConfirm = document.getElementById('toggle-reg-password-confirm');
+if (toggleRegPasswordConfirm) {
+  toggleRegPasswordConfirm.addEventListener('click', () => {
+    const passwordInput = document.getElementById('reg-password-confirm');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleRegPasswordConfirm.textContent = '🔓';
+    } else {
+      passwordInput.type = 'password';
+      toggleRegPasswordConfirm.textContent = '🔒';
+    }
+  });
+}

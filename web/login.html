@@ -33,9 +33,12 @@
               <label for="login-email" class="text-sm">E-mail</label>
               <input id="login-email" type="email" required placeholder="E-mail címed" class="mt-1 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
             </div>
-            <div>
+            <div class="relative">
               <label for="login-password" class="text-sm">Jelszó</label>
-              <input id="login-password" type="password" required placeholder="Jelszavad" class="mt-1 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+              <div class="relative">
+                <input id="login-password" type="password" required placeholder="Jelszavad" class="mt-1 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+                <button type="button" id="toggle-login-password" class="absolute right-2 top-1/2 -translate-y-1/2 mt-0.5 text-white/60 hover:text-white/80 text-sm cursor-pointer" aria-label="Jelszó mutatása">🔒</button>
+              </div>
             </div>
             <button type="submit" class="w-full mt-2 cta-primary text-white rounded-lg py-2 hover:shadow-[0_0_20px_#a855f7] transition">Bejelentkezés</button>
             <p id="login-error" class="text-red-400 text-sm hidden">Hibás e-mail vagy jelszó.</p>
