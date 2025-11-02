@@ -86,6 +86,45 @@
       </div>
     </main>
 
+    <!-- Hazibuli szerkesztése modal -->
+    <div id="edit-event-modal" class="hidden fixed inset-0 z-[3000]">
+      <div class="absolute inset-0 bg-black/60" id="edit-event-modal-backdrop"></div>
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 sm:p-6 shadow-[0_0_30px_#a855f7] max-h-[90vh] overflow-y-auto">
+        <h3 class="text-xl font-semibold mb-4 text-[#a855f7]">Hazibuli szerkesztése</h3>
+        <form id="edit-event-form" class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="edit-event-name" class="text-sm block mb-1">Buli neve</label>
+              <input id="edit-event-name" type="text" required placeholder="Pl. Születésnapozás" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+            </div>
+            <div>
+              <label for="edit-event-date" class="text-sm block mb-1">Dátum</label>
+              <input id="edit-event-date" type="datetime-local" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+            </div>
+          </div>
+          <div>
+            <label for="edit-event-address" class="text-sm block mb-1">Cím</label>
+            <input id="edit-event-address" type="text" placeholder="Cím vagy hely" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+          </div>
+          <div class="bg-white/5 rounded-lg p-3 border border-white/10">
+            <p class="text-xs text-white/70 mb-2">📍 Pozíció módosítása</p>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mb-2">
+              <button type="button" id="edit-open-map-btn" class="w-full sm:w-auto px-4 py-2 bg-[#a855f7]/20 hover:bg-[#a855f7]/30 border border-[#a855f7]/40 rounded-lg text-xs sm:text-sm text-[#a855f7] transition">
+                Új pozíció kiválasztása
+              </button>
+              <span id="edit-event-coords" class="text-xs text-white/60 break-words sm:break-normal">Koordináták: nem változott</span>
+            </div>
+            <p class="text-xs text-white/50">A térképen kattints a helyre, majd térj vissza.</p>
+          </div>
+          <input type="hidden" id="edit-event-index" />
+          <div class="flex gap-2">
+            <button type="submit" class="flex-1 cta-primary text-white rounded-lg py-2 hover:shadow-[0_0_20px_#a855f7] transition">Mentés</button>
+            <button type="button" id="edit-event-cancel" class="flex-1 bg-white/5 hover:bg-white/10 text-white rounded-lg py-2 border border-white/10">Mégse</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="script.js"></script>
     <script>
@@ -174,7 +213,7 @@
           return;
         }
 
-        listEl.innerHTML = myEvents.map(event => `
+        listEl.innerHTML = myEvents.map((event, index) => `
           <div class="bg-white/5 rounded-lg p-3 sm:p-4 border border-white/10 hover:border-[#a855f7]/40 transition">
             <div class="flex items-start justify-between gap-2 sm:gap-4">
               <div class="flex-1 min-w-0">
@@ -185,9 +224,35 @@
                   ${event.coordinates ? `<div class="text-xs text-white/50 break-all sm:break-normal">Koordináták: ${event.coordinates[0].toFixed(4)}, ${event.coordinates[1].toFixed(4)}</div>` : ''}
                 </div>
               </div>
+              <div class="flex flex-col gap-2 shrink-0">
+                <button class="edit-event-btn px-3 py-1.5 bg-[#a855f7]/20 hover:bg-[#a855f7]/30 border border-[#a855f7]/40 rounded-lg text-xs sm:text-sm text-[#a855f7] transition" data-index="${index}">
+                  ✏️ Szerkesztés
+                </button>
+                <button class="delete-event-btn px-3 py-1.5 bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 rounded-lg text-xs sm:text-sm text-red-400 transition" data-index="${index}">
+                  🗑️ Törlés
+                </button>
+              </div>
             </div>
           </div>
         `).join('');
+
+        // Szerkesztés gombok
+        listEl.querySelectorAll('.edit-event-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const index = parseInt(btn.dataset.index);
+            openEditModal(index);
+          });
+        });
+
+        // Törlés gombok
+        listEl.querySelectorAll('.delete-event-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const index = parseInt(btn.dataset.index);
+            if (confirm('Biztosan törölni szeretnéd ezt a hazibulit?')) {
+              deleteEvent(index);
+            }
+          });
+        });
       }
 
       // Hazibuli form submit
@@ -245,8 +310,206 @@
         });
       }
 
+      // Szerkesztési modal kezelése
+      let allEvents = [];
+      let editingEventIndex = null;
+      let editingEventCoords = null;
+
+      const editModal = document.getElementById('edit-event-modal');
+      const editForm = document.getElementById('edit-event-form');
+      const editCancel = document.getElementById('edit-event-cancel');
+      const editOpenMapBtn = document.getElementById('edit-open-map-btn');
+
+      function openEditModal(index) {
+        async function loadMyEvents() {
+          let events = [];
+          try {
+            const tempEvents = localStorage.getItem('user-events-temp');
+            if (tempEvents) {
+              events = JSON.parse(tempEvents);
+            } else {
+              const res = await fetch('./user-events.json');
+              events = await res.json();
+            }
+          } catch (e) {
+            console.error('Eventek betöltése sikertelen', e);
+          }
+          return events.filter(e => e.creator === session.email);
+        }
+
+        (async () => {
+          const myEvents = await loadMyEvents();
+          const event = myEvents[index];
+          if (!event) return;
+
+          editingEventIndex = index;
+          editingEventCoords = event.coordinates || null;
+
+          document.getElementById('edit-event-name').value = event.name || '';
+          document.getElementById('edit-event-address').value = event.address || '';
+          document.getElementById('edit-event-date').value = event.date ? new Date(event.date).toISOString().slice(0, 16) : '';
+          document.getElementById('edit-event-index').value = index;
+          document.getElementById('edit-event-coords').textContent = event.coordinates 
+            ? `Koordináták: ${event.coordinates[0].toFixed(6)}, ${event.coordinates[1].toFixed(6)}`
+            : 'Koordináták: nem változott';
+
+          editModal.classList.remove('hidden');
+        })();
+      }
+
+      function closeEditModal() {
+        editModal.classList.add('hidden');
+        editingEventIndex = null;
+        editingEventCoords = null;
+        editForm.reset();
+      }
+
+      if (editCancel) {
+        editCancel.addEventListener('click', closeEditModal);
+      }
+
+      if (editModal) {
+        const backdrop = editModal.querySelector('#edit-event-modal-backdrop');
+        if (backdrop) {
+          backdrop.addEventListener('click', closeEditModal);
+        }
+      }
+
+      if (editOpenMapBtn) {
+        editOpenMapBtn.addEventListener('click', () => {
+          localStorage.setItem('return-to-profile', 'true');
+          localStorage.setItem('edit-event-mode', 'true');
+          localStorage.setItem('edit-event-index', editingEventIndex);
+          window.location.href = 'map.html';
+        });
+      }
+
+      // Szerkesztési koordináták betöltése
+      function loadEditSelectedCoords() {
+        const editMode = localStorage.getItem('edit-event-mode');
+        if (editMode) {
+          const coords = localStorage.getItem('selected-event-coords');
+          if (coords) {
+            try {
+              editingEventCoords = JSON.parse(coords);
+              const [lat, lng] = editingEventCoords;
+              document.getElementById('edit-event-coords').textContent = `Koordináták: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+              localStorage.removeItem('selected-event-coords');
+              localStorage.removeItem('edit-event-mode');
+            } catch (e) {
+              console.error('Koordináták betöltése sikertelen', e);
+            }
+          }
+        }
+      }
+
+      if (editForm) {
+        editForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const index = parseInt(document.getElementById('edit-event-index').value);
+          
+          async function loadAllEvents() {
+            let events = [];
+            try {
+              const tempEvents = localStorage.getItem('user-events-temp');
+              if (tempEvents) {
+                events = JSON.parse(tempEvents);
+              } else {
+                const res = await fetch('./user-events.json');
+                events = await res.json();
+              }
+            } catch (e) {
+              console.error('Eventek betöltése sikertelen', e);
+            }
+            return events;
+          }
+
+          const allEvents = await loadAllEvents();
+          const myEvents = allEvents.filter(e => e.creator === session.email);
+          
+          if (index >= 0 && index < myEvents.length) {
+            // Megkeressük az eredeti eventet az allEvents tömbben
+            const originalEvent = myEvents[index];
+            const originalIndex = allEvents.findIndex(e => 
+              e.creator === originalEvent.creator &&
+              e.name === originalEvent.name &&
+              e.coordinates && originalEvent.coordinates &&
+              e.coordinates[0] === originalEvent.coordinates[0] &&
+              e.coordinates[1] === originalEvent.coordinates[1]
+            );
+
+            if (originalIndex !== -1) {
+              const profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}');
+              
+              allEvents[originalIndex] = {
+                ...allEvents[originalIndex],
+                name: document.getElementById('edit-event-name').value.trim(),
+                address: document.getElementById('edit-event-address').value.trim() || '',
+                date: document.getElementById('edit-event-date').value || '',
+                coordinates: editingEventCoords || allEvents[originalIndex].coordinates,
+                creatorName: profile.name || session.email,
+              };
+
+              localStorage.setItem('user-events-temp', JSON.stringify(allEvents));
+              
+              closeEditModal();
+              loadMyEvents();
+              
+              const successEl = document.getElementById('event-success');
+              if (successEl) {
+                successEl.textContent = '✓ Hazibuli sikeresen módosítva!';
+                successEl.classList.remove('hidden');
+                setTimeout(() => {
+                  successEl.classList.add('hidden');
+                }, 3000);
+              }
+            }
+          }
+        });
+      }
+
+      async function deleteEvent(index) {
+        async function loadAllEvents() {
+          let events = [];
+          try {
+            const tempEvents = localStorage.getItem('user-events-temp');
+            if (tempEvents) {
+              events = JSON.parse(tempEvents);
+            } else {
+              const res = await fetch('./user-events.json');
+              events = await res.json();
+            }
+          } catch (e) {
+            console.error('Eventek betöltése sikertelen', e);
+          }
+          return events;
+        }
+
+        const allEvents = await loadAllEvents();
+        const myEvents = allEvents.filter(e => e.creator === session.email);
+        
+        if (index >= 0 && index < myEvents.length) {
+          const eventToDelete = myEvents[index];
+          const deleteIndex = allEvents.findIndex(e => 
+            e.creator === eventToDelete.creator &&
+            e.name === eventToDelete.name &&
+            e.coordinates && eventToDelete.coordinates &&
+            e.coordinates[0] === eventToDelete.coordinates[0] &&
+            e.coordinates[1] === eventToDelete.coordinates[1]
+          );
+
+          if (deleteIndex !== -1) {
+            allEvents.splice(deleteIndex, 1);
+            localStorage.setItem('user-events-temp', JSON.stringify(allEvents));
+            loadMyEvents();
+          }
+        }
+      }
+
       // Koordináták betöltése oldal betöltésekor
       loadSelectedCoords();
+      loadEditSelectedCoords();
       loadMyEvents();
     </script>
   </body>

@@ -512,14 +512,21 @@ if (L) {
       const coords = [e.latlng.lat, e.latlng.lng]
       localStorage.setItem("selected-event-coords", JSON.stringify(coords))
       localStorage.removeItem("return-to-profile")
+      const editMode = localStorage.getItem("edit-event-mode")
+      if (editMode) {
+        localStorage.removeItem("edit-event-mode")
+      }
       // Visszatérés a profil oldalra
       window.location.href = "profile.html"
     }
     map.on("click", positionSelectHandler)
     
     // Felhasználó értesítése
+    const editMode = localStorage.getItem("edit-event-mode")
     setTimeout(() => {
-      alert("Kattints a térképre a hazibuli pozíciójának kiválasztásához!")
+      alert(editMode 
+        ? "Kattints a térképre az új pozíció kiválasztásához!" 
+        : "Kattints a térképre a hazibuli pozíciójának kiválasztásához!")
     }, 500)
   }
 
