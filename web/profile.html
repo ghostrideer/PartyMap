@@ -174,7 +174,7 @@
       });
 
       // Pozíció betöltése localStorage-ból (ha a térképről jöttünk)
-      function loadSelectedCoords() {
+      async function loadSelectedCoords() {
         const coords = localStorage.getItem('selected-event-coords');
         if (coords) {
           try {
@@ -182,6 +182,73 @@
             const [lat, lng] = selectedEventCoords;
             document.getElementById('event-coords').textContent = `Koordináták: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
             localStorage.removeItem('selected-event-coords');
+            
+            // Ha van elmentett form adat, betöltjük és automatikusan elmentjük a hazibulit
+            const pendingFormData = localStorage.getItem('pending-event-form');
+            if (pendingFormData) {
+              try {
+                const formData = JSON.parse(pendingFormData);
+                // Form mezők kitöltése
+                document.getElementById('event-name').value = formData.name || '';
+                document.getElementById('event-address').value = formData.address || '';
+                document.getElementById('event-description').value = formData.description || '';
+                document.getElementById('event-date').value = formData.date || '';
+                
+                // Automatikusan elmentjük a hazibulit
+                const profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}');
+                const eventData = {
+                  name: formData.name,
+                  address: formData.address,
+                  description: formData.description,
+                  date: formData.date,
+                  coordinates: selectedEventCoords,
+                  creator: session.email,
+                  creatorName: profile.name || session.email,
+                  createdAt: new Date().toISOString(),
+                };
+
+                // Betöltjük a meglévő eventeket
+                let events = [];
+                try {
+                  const tempEvents = localStorage.getItem('user-events-temp');
+                  if (tempEvents) {
+                    events = JSON.parse(tempEvents);
+                  } else {
+                    const res = await fetch('./user-events.json');
+                    events = await res.json();
+                  }
+                } catch (e) {
+                  console.error('Eventek betöltése sikertelen', e);
+                }
+
+                events.push(eventData);
+                localStorage.setItem('user-events-temp', JSON.stringify(events));
+                
+                // Töröljük a pending form adatokat
+                localStorage.removeItem('pending-event-form');
+                
+                // Form reset
+                document.getElementById('event-form').reset();
+                selectedEventCoords = null;
+                document.getElementById('event-coords').textContent = 'Koordináták: nem beállítva';
+                
+                // Lista frissítése
+                loadMyEvents();
+                
+                // Sikeres üzenet
+                const successEl = document.getElementById('event-success');
+                if (successEl) {
+                  successEl.textContent = '✓ Hazibuli sikeresen hozzáadva!';
+                  successEl.classList.remove('hidden');
+                  setTimeout(() => {
+                    successEl.classList.add('hidden');
+                  }, 3000);
+                }
+              } catch (e) {
+                console.error('Form adatok betöltése sikertelen', e);
+                localStorage.removeItem('pending-event-form');
+              }
+            }
           } catch (e) {
             console.error('Koordináták betöltése sikertelen', e);
           }
@@ -192,6 +259,19 @@
       const openMapBtn = document.getElementById('open-map-btn');
       if (openMapBtn) {
         openMapBtn.addEventListener('click', () => {
+          // Elmentjük a form adatokat, ha vannak (koordináta hiányában)
+          if (!selectedEventCoords) {
+            const formData = {
+              name: document.getElementById('event-name').value.trim(),
+              address: document.getElementById('event-address').value.trim() || '',
+              description: document.getElementById('event-description').value.trim() || '',
+              date: document.getElementById('event-date').value || '',
+            };
+            // Csak akkor mentjük, ha van legalább név
+            if (formData.name) {
+              localStorage.setItem('pending-event-form', JSON.stringify(formData));
+            }
+          }
           // Elmentjük hogy térképről jövünk
           localStorage.setItem('return-to-profile', 'true');
           window.location.href = 'map.html';
@@ -303,6 +383,9 @@
 
           events.push(eventData);
           localStorage.setItem('user-events-temp', JSON.stringify(events));
+          
+          // Töröljük a pending form adatokat, ha vannak
+          localStorage.removeItem('pending-event-form');
 
           // Form reset és koordináták törlése
           eventForm.reset();
