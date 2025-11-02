@@ -10,27 +10,30 @@
 </head>
 <body class="bg-[#0a0a0a] text-white min-h-screen">
 <div class="relative w-screen h-screen">
-  <div id="sidebar" class="sidebar fixed left-4 top-4 bottom-4 w-72 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-3 overflow-y-auto z-[1500]">
+  <div id="sidebar" class="sidebar fixed left-2 sm:left-4 top-2 sm:top-4 bottom-2 sm:bottom-4 w-[calc(100vw-1rem)] sm:w-72 max-w-xs bg-white/5 backdrop-blur-md border border-white/10 rounded-lg sm:rounded-xl p-2 sm:p-3 overflow-y-auto z-[1500]">
     <div class="flex items-center justify-between mb-2">
-      <h2 class="text-lg font-semibold text-[#22c55e]">Helyek</h2>
+      <h2 class="text-base sm:text-lg font-semibold text-[#22c55e]">Helyek</h2>
     </div>
-    <div class="flex items-center gap-2 mb-3">
-      <button id="tab-nearby" class="flex-1 px-3 py-2 rounded-lg bg-white/10 text-sm">Közeli</button>
-      <button id="tab-favs" class="flex-1 px-3 py-2 rounded-lg bg-white/5 text-sm">Kedvencek <span id="fav-count" class="text-white/60"></span></button>
+    <div class="flex items-center gap-2 mb-2 sm:mb-3">
+      <button id="tab-nearby" class="flex-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-white/10 text-xs sm:text-sm">Közeli</button>
+      <button id="tab-favs" class="flex-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-white/5 text-xs sm:text-sm">Kedvencek <span id="fav-count" class="text-white/60"></span></button>
     </div>
-    <button id="random-place-btn" class="w-full mb-3 px-3 py-2 rounded-lg bg-[#22c55e]/20 hover:bg-[#22c55e]/30 border border-[#22c55e]/40 text-sm text-[#22c55e] font-medium transition shadow-[0_0_10px_rgba(34,197,94,0.2)] hover:shadow-[0_0_16px_rgba(34,197,94,0.35)]">
+    <button id="random-place-btn" class="w-full mb-2 sm:mb-3 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-[#22c55e]/20 hover:bg-[#22c55e]/30 border border-[#22c55e]/40 text-xs sm:text-sm text-[#22c55e] font-medium transition shadow-[0_0_10px_rgba(34,197,94,0.2)] hover:shadow-[0_0_16px_rgba(34,197,94,0.35)]">
       Nem tudsz dönteni?
     </button>
+    <a href="profile.html" class="w-full mb-2 sm:mb-3 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs sm:text-sm text-white font-medium transition text-center block">
+      👤 Dashboard
+    </a>
     <ul id="places-list" class="space-y-2"></ul>
   </div>
   <!-- Lebegő gomb bal alsó sarokban az oldalsáv kapcsolásához -->
   <button
     id="sidebar-fab"
-    class="fixed left-4 bottom-4 z-[2000] bg-[#22c55e] text-white rounded-full w-12 h-12 shadow-[0_0_14px_#22c55e] flex items-center justify-center hover:shadow-[0_0_20px_#22c55e] transition"
+    class="fixed left-2 sm:left-4 bottom-2 sm:bottom-4 z-[2000] bg-[#22c55e] text-white rounded-full w-10 h-10 sm:w-12 sm:h-12 shadow-[0_0_14px_#22c55e] flex items-center justify-center hover:shadow-[0_0_20px_#22c55e] transition"
     title="Oldalsáv ki/be"
     aria-label="Oldalsáv ki/be"
   >
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 sm:w-6 sm:h-6">
       <path d="M4 6.75A.75.75 0 0 1 4.75 6h14.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 6.75Zm0 5.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 12Zm0 5.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H4.75a.75.75 0 0 1-.75-.75Z"/>
     </svg>
   </button>

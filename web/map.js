@@ -259,6 +259,70 @@ if (L) {
     return R * c
   }
 
+  // Hazibulik tárolása és betöltése
+  let userEvents = []
+  let eventMarkers = []
+
+  async function loadUserEvents() {
+    userEvents = []
+    
+    // Először próbáljuk a localStorage-ból (ha van új hazibuli)
+    try {
+      const tempEvents = localStorage.getItem("user-events-temp")
+      if (tempEvents) {
+        const parsed = JSON.parse(tempEvents)
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          userEvents = parsed
+        }
+      }
+    } catch (e) {
+      console.error("localStorage eventek betöltése sikertelen", e)
+    }
+
+    // Ha nincs localStorage, vagy üres, próbáljuk a JSON fájlból
+    if (userEvents.length === 0) {
+      try {
+        const res = await fetch("./user-events.json")
+        userEvents = await res.json()
+      } catch (e) {
+        console.error("user-events.json betöltése sikertelen", e)
+        userEvents = []
+      }
+    }
+
+    renderEventMarkers()
+  }
+
+  function renderEventMarkers() {
+    // Eltávolítjuk a régi event markereket
+    eventMarkers.forEach((m) => m.remove())
+    eventMarkers = []
+
+    // Új event markerek hozzáadása (lila/purple színnel)
+    userEvents.forEach((event) => {
+      const icon = makeIcon("#a855f7", 14)
+      const m = L.marker(event.coordinates, { icon }).addTo(map)
+      const popup = `
+        <div style="min-width:200px;max-width:260px">
+          <div style="font-weight:600;color:#a855f7">🎉 ${event.name}</div>
+          <div style="font-size:12px;opacity:.8">${event.address || ""}</div>
+          <div style="font-size:12px;margin-top:4px">${event.date ? new Date(event.date).toLocaleString("hu-HU") : ""}</div>
+          <div style="font-size:11px;opacity:.6;margin-top:2px">Létrehozó: ${event.creatorName || event.creator}</div>
+        </div>
+      `
+      m.bindPopup(popup)
+      eventMarkers.push(m)
+    })
+  }
+
+  function saveUserEvent(event) {
+    userEvents.push(event)
+    // Statikus megoldás: localStorage-ban tároljuk, majd manuálisan kell frissíteni a JSON-t
+    localStorage.setItem("user-events-temp", JSON.stringify(userEvents))
+    renderEventMarkers()
+    // TODO: Valós környezetben itt lenne egy API hívás a backend-re
+  }
+
   // Helyek betöltése és kirajzolása
   async function loadPlacesAndRender(origin) {
     lastOrigin = origin
@@ -439,4 +503,26 @@ if (L) {
       }
     })
   }
+
+  // Térkép kattintás koordináta mentése (ha profil oldalról jöttünk)
+  const returnToProfile = localStorage.getItem("return-to-profile")
+  if (returnToProfile) {
+    // Egyedi click handler csak pozíció kiválasztáshoz
+    const positionSelectHandler = (e) => {
+      const coords = [e.latlng.lat, e.latlng.lng]
+      localStorage.setItem("selected-event-coords", JSON.stringify(coords))
+      localStorage.removeItem("return-to-profile")
+      // Visszatérés a profil oldalra
+      window.location.href = "profile.html"
+    }
+    map.on("click", positionSelectHandler)
+    
+    // Felhasználó értesítése
+    setTimeout(() => {
+      alert("Kattints a térképre a hazibuli pozíciójának kiválasztásához!")
+    }, 500)
+  }
+
+  // Hazibulik betöltése a térkép betöltésekor
+  loadUserEvents()
 }

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard – Party Map</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-[#0a0a0a] text-white min-h-screen">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-md border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-3 sm:px-4 h-12 sm:h-14 flex items-center justify-between">
+        <a href="index.html" class="font-bold text-[#a855f7] drop-shadow-[0_0_8px_#a855f7]"><img src="img/partymapfeher.png" alt="Party Map" class="w-16 sm:w-20 h-auto"></a>
+        <div class="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm">
+          <a class="hover:text-[#a855f7] whitespace-nowrap" href="map.html">Térkép</a>
+          <a class="hover:text-[#a855f7] whitespace-nowrap hidden sm:inline" href="index.html">Kezdőlap</a>
+          <button id="logout-btn" class="hover:text-[#a855f7] text-red-400 whitespace-nowrap text-xs sm:text-sm">Kijelentkezés</button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="pt-16 sm:pt-20 pb-6 sm:pb-8 px-4 sm:px-6 max-w-7xl mx-auto">
+      <div id="bg-dots" class="pointer-events-none fixed inset-0 opacity-20"></div>
+      
+      <h1 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-[#a855f7]">Dashboard</h1>
+
+      <!-- Grid layout: Profil + Hazibuli hozzáadása -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
+        <!-- Profil információk -->
+        <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 glass-panel">
+          <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#a855f7]">Profil adatok</h2>
+          <form id="profile-form" class="space-y-4">
+            <div>
+              <label for="profile-name" class="text-sm block mb-1">Név</label>
+              <input id="profile-name" type="text" placeholder="Add meg a neved" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+            </div>
+            <div>
+              <label for="profile-email" class="text-sm block mb-1">E-mail</label>
+              <input id="profile-email" type="email" disabled class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white/50" />
+            </div>
+            <button type="submit" class="w-full cta-primary text-white rounded-lg py-2 hover:shadow-[0_0_20px_#a855f7] transition">Mentés</button>
+            <p id="profile-success" class="text-emerald-400 text-sm hidden text-center">✓ Profil sikeresen frissítve!</p>
+          </form>
+        </div>
+
+        <!-- Hazibuli hozzáadása -->
+        <div class="lg:col-span-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 glass-panel">
+          <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#a855f7]">🎉 Új hazibuli hozzáadása</h2>
+          <form id="event-form" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label for="event-name" class="text-sm block mb-1">Buli neve</label>
+                <input id="event-name" type="text" required placeholder="Pl. Születésnapozás" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+              </div>
+              <div>
+                <label for="event-date" class="text-sm block mb-1">Dátum</label>
+                <input id="event-date" type="datetime-local" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+              </div>
+            </div>
+            <div>
+              <label for="event-address" class="text-sm block mb-1">Cím</label>
+              <input id="event-address" type="text" placeholder="Cím vagy hely" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#a855f7]" />
+            </div>
+            <div class="bg-white/5 rounded-lg p-3 border border-white/10">
+              <p class="text-xs text-white/70 mb-2">📍 Pozíció kiválasztása a térképen</p>
+              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mb-2">
+                <button type="button" id="open-map-btn" class="w-full sm:w-auto px-4 py-2 bg-[#a855f7]/20 hover:bg-[#a855f7]/30 border border-[#a855f7]/40 rounded-lg text-xs sm:text-sm text-[#a855f7] transition">
+                  Térkép megnyitása
+                </button>
+                <span id="event-coords" class="text-xs text-white/60 break-words sm:break-normal">Koordináták: nincs beállítva</span>
+              </div>
+              <p class="text-xs text-white/50">A térképen kattints a helyre, majd térj vissza és hozzáadás.</p>
+            </div>
+            <button type="submit" class="w-full cta-primary text-white rounded-lg py-2 hover:shadow-[0_0_20px_#a855f7] transition">Hazibuli hozzáadása</button>
+            <p id="event-success" class="text-emerald-400 text-sm hidden text-center">✓ Hazibuli sikeresen hozzáadva!</p>
+          </form>
+        </div>
+      </div>
+
+      <!-- Hazibulijaim szekció -->
+      <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 glass-panel">
+        <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#a855f7]">Hazibulijaim</h2>
+        <div id="my-events-list" class="space-y-3">
+          <div class="text-white/60 text-center py-8">Még nincs hazibuli hozzáadva.</div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+      // Profil betöltése
+      const session = readSession();
+      if (!session) {
+        window.location.href = 'login.html';
+      }
+
+      const profileForm = document.getElementById('profile-form');
+      const profileName = document.getElementById('profile-name');
+      const profileEmail = document.getElementById('profile-email');
+      const logoutBtn = document.getElementById('logout-btn');
+      let selectedEventCoords = null;
+
+      // Profil adatok betöltése
+      const PROFILE_KEY = 'dma_profile_' + session.email;
+      const profileData = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}');
+      
+      profileName.value = profileData.name || '';
+      profileEmail.value = session.email;
+
+      // Profil mentése
+      profileForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = profileName.value.trim();
+        localStorage.setItem(PROFILE_KEY, JSON.stringify({ name }));
+        const successEl = document.getElementById('profile-success');
+        successEl.classList.remove('hidden');
+        setTimeout(() => {
+          successEl.classList.add('hidden');
+        }, 3000);
+      });
+
+      // Kijelentkezés
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('dma_session');
+        window.location.href = 'index.html';
+      });
+
+      // Pozíció betöltése localStorage-ból (ha a térképről jöttünk)
+      function loadSelectedCoords() {
+        const coords = localStorage.getItem('selected-event-coords');
+        if (coords) {
+          try {
+            selectedEventCoords = JSON.parse(coords);
+            const [lat, lng] = selectedEventCoords;
+            document.getElementById('event-coords').textContent = `Koordináták: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+            localStorage.removeItem('selected-event-coords');
+          } catch (e) {
+            console.error('Koordináták betöltése sikertelen', e);
+          }
+        }
+      }
+
+      // Térkép megnyitása gomb
+      const openMapBtn = document.getElementById('open-map-btn');
+      if (openMapBtn) {
+        openMapBtn.addEventListener('click', () => {
+          // Elmentjük hogy térképről jövünk
+          localStorage.setItem('return-to-profile', 'true');
+          window.location.href = 'map.html';
+        });
+      }
+
+      // Hazibulik listázása
+      async function loadMyEvents() {
+        let events = [];
+        try {
+          const tempEvents = localStorage.getItem('user-events-temp');
+          if (tempEvents) {
+            events = JSON.parse(tempEvents);
+          } else {
+            const res = await fetch('./user-events.json');
+            events = await res.json();
+          }
+        } catch (e) {
+          console.error('Hazibulik betöltése sikertelen', e);
+        }
+        
+        const myEvents = events.filter(e => e.creator === session.email);
+        const listEl = document.getElementById('my-events-list');
+        
+        if (myEvents.length === 0) {
+          listEl.innerHTML = '<div class="text-white/60 text-center py-8">Még nincs hazibuli hozzáadva.</div>';
+          return;
+        }
+
+        listEl.innerHTML = myEvents.map(event => `
+          <div class="bg-white/5 rounded-lg p-3 sm:p-4 border border-white/10 hover:border-[#a855f7]/40 transition">
+            <div class="flex items-start justify-between gap-2 sm:gap-4">
+              <div class="flex-1 min-w-0">
+                <div class="font-semibold text-base sm:text-lg mb-1 sm:mb-2 truncate">🎉 ${event.name}</div>
+                <div class="text-xs sm:text-sm text-white/70 space-y-1">
+                  ${event.address ? `<div class="break-words">📍 ${event.address}</div>` : ''}
+                  ${event.date ? `<div>📅 ${new Date(event.date).toLocaleString('hu-HU')}</div>` : ''}
+                  ${event.coordinates ? `<div class="text-xs text-white/50 break-all sm:break-normal">Koordináták: ${event.coordinates[0].toFixed(4)}, ${event.coordinates[1].toFixed(4)}</div>` : ''}
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Hazibuli form submit
+      const eventForm = document.getElementById('event-form');
+      if (eventForm) {
+        eventForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          if (!selectedEventCoords) {
+            alert('Kérlek válassz ki egy pozíciót a térképen!');
+            return;
+          }
+
+          const profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}');
+          const eventData = {
+            name: document.getElementById('event-name').value.trim(),
+            address: document.getElementById('event-address').value.trim() || '',
+            date: document.getElementById('event-date').value || '',
+            coordinates: selectedEventCoords,
+            creator: session.email,
+            creatorName: profile.name || session.email,
+            createdAt: new Date().toISOString(),
+          };
+
+          // Betöltjük a meglévő eventeket
+          let events = [];
+          try {
+            const tempEvents = localStorage.getItem('user-events-temp');
+            if (tempEvents) {
+              events = JSON.parse(tempEvents);
+            } else {
+              const res = await fetch('./user-events.json');
+              events = await res.json();
+            }
+          } catch (e) {
+            console.error('Eventek betöltése sikertelen', e);
+          }
+
+          events.push(eventData);
+          localStorage.setItem('user-events-temp', JSON.stringify(events));
+
+          // Form reset és koordináták törlése
+          eventForm.reset();
+          selectedEventCoords = null;
+          document.getElementById('event-coords').textContent = 'Koordináták: nem beállítva';
+
+          const successEl = document.getElementById('event-success');
+          successEl.classList.remove('hidden');
+          setTimeout(() => {
+            successEl.classList.add('hidden');
+          }, 3000);
+
+          // Lista frissítése
+          loadMyEvents();
+        });
+      }
+
+      // Koordináták betöltése oldal betöltésekor
+      loadSelectedCoords();
+      loadMyEvents();
+    </script>
+  </body>
+</html>
