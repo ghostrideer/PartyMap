@@ -141,12 +141,22 @@ if (regForm) {
     e.preventDefault();
     const email = document.getElementById('reg-email').value.trim().toLowerCase();
     const password = document.getElementById('reg-password').value;
+    const passwordConfirm = document.getElementById('reg-password-confirm').value;
     const err = document.getElementById('register-error');
     const ok = document.getElementById('register-success');
     err.classList.add('hidden');
     ok.classList.add('hidden');
+    
+    // Ellenőrizzük, hogy a két jelszó megegyezik-e
+    if (password !== passwordConfirm) {
+      err.textContent = 'A két jelszó nem egyezik meg.';
+      err.classList.remove('hidden');
+      return;
+    }
+    
     const users = readUsers();
     if (users[email]) {
+      err.textContent = 'Már létező felhasználó.';
       err.classList.remove('hidden');
       return;
     }
