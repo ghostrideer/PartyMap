@@ -220,6 +220,25 @@ if (L) {
   }
 
   function popupHtml(p) {
+    // Hazibuli vagy normál hely
+    if (p.isEvent && p.eventData) {
+      const event = p.eventData
+      const img = event.image
+        ? `<img src="${event.image}" alt="${event.name}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:6px;"/>`
+        : ""
+      return `
+        <div style="min-width:200px;max-width:260px">
+          ${img}
+          <div style="font-weight:600;color:#a855f7;font-size:16px">🎉 ${event.name}</div>
+          <div style="font-size:12px;opacity:.8;margin-top:4px">${event.address || ""}</div>
+          ${event.date ? `<div style="font-size:12px;margin-top:4px">📅 ${new Date(event.date).toLocaleString("hu-HU")}</div>` : ''}
+          ${event.description ? `<div style="font-size:12px;margin-top:6px;opacity:.9;line-height:1.4">${event.description}</div>` : ''}
+          <div style="font-size:11px;opacity:.6;margin-top:6px">Létrehozó: ${event.creatorName || event.creator}</div>
+        </div>
+      `
+    }
+    
+    // Normál hely
     const price = "€".repeat(p.price || 1)
     const rating = p.rating != null ? Number(p.rating).toFixed(1) : "–"
     const img = p.image
@@ -238,7 +257,9 @@ if (L) {
   function selectPlace(p) {
     const key = placeKeyOf(p)
     if (selectedKey && markersByKey[selectedKey]) {
-      markersByKey[selectedKey].setIcon(makeIcon("#06b6d4", 12))
+      const prevPlace = lastPlaces.find(place => placeKeyOf(place) === selectedKey)
+      const prevColor = (prevPlace && prevPlace.isEvent) ? "#a855f7" : "#06b6d4"
+      markersByKey[selectedKey].setIcon(makeIcon(prevColor, 12))
     }
     selectedKey = key
     if (markersByKey[key]) {
@@ -298,22 +319,7 @@ if (L) {
     eventMarkers.forEach((m) => m.remove())
     eventMarkers = []
 
-    // Új event markerek hozzáadása (lila/purple színnel)
-    userEvents.forEach((event) => {
-      const icon = makeIcon("#a855f7", 14)
-      const m = L.marker(event.coordinates, { icon }).addTo(map)
-      const popup = `
-        <div style="min-width:200px;max-width:260px">
-          <div style="font-weight:600;color:#a855f7;font-size:16px">🎉 ${event.name}</div>
-          <div style="font-size:12px;opacity:.8;margin-top:4px">${event.address || ""}</div>
-          ${event.date ? `<div style="font-size:12px;margin-top:4px">📅 ${new Date(event.date).toLocaleString("hu-HU")}</div>` : ''}
-          ${event.description ? `<div style="font-size:12px;margin-top:6px;opacity:.9;line-height:1.4">${event.description}</div>` : ''}
-          <div style="font-size:11px;opacity:.6;margin-top:6px">Létrehozó: ${event.creatorName || event.creator}</div>
-        </div>
-      `
-      m.bindPopup(popup)
-      eventMarkers.push(m)
-    })
+    // Új event markerek hozzáadása - most már nem kell külön, mert a renderMarkers() kezeli
   }
 
   function saveUserEvent(event) {
@@ -324,14 +330,30 @@ if (L) {
     // TODO: Valós környezetben itt lenne egy API hívás a backend-re
   }
 
-  // Helyek betöltése és kirajzolása
+  // Helyek betöltése és kirajzolása (beleértve a hazibulikat is)
   async function loadPlacesAndRender(origin) {
     lastOrigin = origin
     try {
       const res = await fetch("./places.json")
       const places = await res.json()
-      lastPlaces = places
-      const withDist = places
+      
+      // Hazibulik betöltése és egyesítése a places-szel
+      const combinedPlaces = [...places]
+      userEvents.forEach(event => {
+        combinedPlaces.push({
+          name: event.name,
+          type: "hazibuli",
+          coordinates: event.coordinates,
+          price: null,
+          address: event.address || "",
+          rating: null,
+          isEvent: true,
+          eventData: event
+        })
+      })
+      
+      lastPlaces = combinedPlaces
+      const withDist = combinedPlaces
         .map((p) => ({ ...p, distance: distanceKm(origin, p.coordinates) }))
         .sort((a, b) => a.distance - b.distance)
       renderList(withDist)
@@ -348,7 +370,9 @@ if (L) {
     Object.keys(markersByKey).forEach((k) => delete markersByKey[k])
     list.forEach((p) => {
       const key = placeKeyOf(p)
-      const m = L.marker(p.coordinates, { icon: makeIcon("#06b6d4", 12) })
+      // Hazibuli lila markerrel, normál helyek ciánnal
+      const markerColor = p.isEvent ? "#a855f7" : "#06b6d4"
+      const m = L.marker(p.coordinates, { icon: makeIcon(markerColor, 12) })
         .addTo(map)
         .bindPopup(popupHtml(p))
       m.on("click", () => {
@@ -373,13 +397,25 @@ if (L) {
 
     filtered.forEach((p) => {
       const li = document.createElement("li")
-      li.className =
-        "p-3 rounded-lg bg-white/5 border border-white/10 hover:border-[#22c55e]/60 hover:shadow-[0_0_14px_#22c55e] transition"
+      
+      // Hazibuli vagy normál hely
+      const isEvent = p.isEvent === true
+      const borderColor = isEvent ? "border-[#a855f7]/40" : "border-white/10"
+      const hoverBorder = isEvent ? "hover:border-[#a855f7]/60" : "hover:border-[#22c55e]/60"
+      const hoverShadow = isEvent ? "hover:shadow-[0_0_14px_#a855f7]" : "hover:shadow-[0_0_14px_#22c55e]"
+      
+      li.className = `p-3 rounded-lg bg-white/5 border ${borderColor} ${hoverBorder} ${hoverShadow} transition`
+      
       const heartFilled = isFav(p, favs)
+      const priceDisplay = p.price != null ? `· ${"\u20ac".repeat(p.price)}` : ""
+      const distanceDisplay = p.distance != null ? ` · ${p.distance.toFixed(1)} km` : ""
+      const emoji = isEvent ? "🎉 " : ""
+      
       li.innerHTML = `<div class="flex items-center justify-between gap-2">
         <div class="min-w-0">
-          <div class="font-semibold truncate">${p.name}</div>
-          <div class="text-xs text-white/70 truncate">${p.type} · ${"\u20ac".repeat(p.price)}${p.distance != null ? ` · ${p.distance.toFixed(1)} km` : ""}</div>
+          <div class="font-semibold truncate">${emoji}${p.name}</div>
+          <div class="text-xs text-white/70 truncate">${p.type || ""}${priceDisplay}${distanceDisplay}</div>
+          ${isEvent && p.eventData?.date ? `<div class="text-xs text-[#a855f7] mt-1">📅 ${new Date(p.eventData.date).toLocaleString("hu-HU", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</div>` : ''}
         </div>
         <button class="fav-btn shrink-0 w-8 h-8 rounded-full border border-white/10 bg-white/5 hover:bg-white/10" title="Kedvenc">
           <span class="block text-${heartFilled ? "[#22c55e]" : "white/70"}">${heartFilled ? "❤" : "♡"}</span>
@@ -424,11 +460,31 @@ if (L) {
 
   function openInfo(p) {
     if (!overlay) return
-    elName.textContent = p.name
-    elAddr.textContent = p.address
-    elPrice.textContent = "€".repeat(p.price)
-    elRating.textContent = p.rating.toFixed(1)
-    elImage.src = p.image || ""
+    
+    // Hazibuli esetén más adatok
+    if (p.isEvent && p.eventData) {
+      elName.textContent = "🎉 " + p.eventData.name
+      elAddr.textContent = p.eventData.address || ""
+      
+      // Ár és értékelés mezők helyett dátum és leírás
+      if (elPrice && elRating) {
+        elPrice.parentElement.innerHTML = p.eventData.date 
+          ? `📅 ${new Date(p.eventData.date).toLocaleString("hu-HU")}`
+          : ""
+      }
+      
+      elImage.src = p.eventData.image || ""
+    } else {
+      // Normál hely
+      elName.textContent = p.name
+      elAddr.textContent = p.address
+      if (elPrice && elRating) {
+        elPrice.textContent = "€".repeat(p.price || 1)
+        elRating.textContent = p.rating ? p.rating.toFixed(1) : "–"
+      }
+      elImage.src = p.image || ""
+    }
+    
     overlay.classList.remove("hidden")
   }
 
@@ -475,7 +531,7 @@ if (L) {
         tabNearby.classList.remove("bg-white/10")
       }
     }
-    // rebuild list using lastPlaces
+    // rebuild list using lastPlaces (ami most már tartalmazza az eventeket is)
     const withDist = lastPlaces
       .map((p) => ({ ...p, distance: distanceKm(lastOrigin, p.coordinates) }))
       .sort((a, b) => a.distance - b.distance)
