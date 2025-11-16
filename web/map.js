@@ -204,6 +204,7 @@ if (L) {
   let lastOrigin = [0, 0]
   let lastPlaces = []
   let currentTab = "nearby" // or 'favs'
+  let selectedCategory = "" // selected category filter
 
   function placeKeyOf(p) {
     return `${p.name}|${p.coordinates[0]},${p.coordinates[1]}`
@@ -330,6 +331,75 @@ if (L) {
     // TODO: Valós környezetben itt lenne egy API hívás a backend-re
   }
 
+  // Kategóriák kinyerése a helyekből
+  function extractCategories(places) {
+    const categories = new Set()
+    places.forEach(p => {
+      if (p.type) {
+        // Vesszővel elválasztott kategóriák szétválasztása
+        const cats = p.type.split(',').map(c => c.trim()).filter(c => c)
+        cats.forEach(cat => categories.add(cat))
+      }
+    })
+    return Array.from(categories).sort()
+  }
+
+  // Helper függvény a chip active állapotának beállításához
+  function setChipActive(button, isActive) {
+    const baseClasses = 'category-chip px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs sm:text-sm text-white hover:bg-white/10 hover:border-[#22c55e]/40 transition'
+    if (isActive) {
+      button.className = baseClasses + ' bg-[#22c55e]/20 border-[#22c55e]/50 shadow-[0_0_8px_rgba(34,197,94,0.3)] active'
+    } else {
+      button.className = baseClasses + ' bg-white/5 border-white/10'
+    }
+  }
+
+  // Kategória szűrő chip gombok feltöltése
+  function populateCategoryFilter(categories) {
+    const container = document.getElementById("category-filter")
+    if (!container) return
+    
+    // Megtartjuk az "Összes" gombot
+    const currentCategory = selectedCategory
+    container.innerHTML = ''
+    
+    // "Összes" gomb létrehozása
+    const allButton = document.createElement("button")
+    allButton.setAttribute("data-category", "")
+    allButton.textContent = "Összes"
+    setChipActive(allButton, !currentCategory)
+    allButton.addEventListener("click", () => {
+      container.querySelectorAll(".category-chip").forEach(btn => setChipActive(btn, false))
+      setChipActive(allButton, true)
+      selectedCategory = ""
+      const withDist = lastPlaces
+        .map((p) => ({ ...p, distance: distanceKm(lastOrigin, p.coordinates) }))
+        .sort((a, b) => a.distance - b.distance)
+      renderList(withDist)
+      renderMarkers(withDist)
+    })
+    container.appendChild(allButton)
+    
+    // Kategória gombok létrehozása
+    categories.forEach(cat => {
+      const button = document.createElement("button")
+      button.setAttribute("data-category", cat)
+      button.textContent = cat
+      setChipActive(button, currentCategory === cat)
+      button.addEventListener("click", () => {
+        container.querySelectorAll(".category-chip").forEach(btn => setChipActive(btn, false))
+        setChipActive(button, true)
+        selectedCategory = cat
+        const withDist = lastPlaces
+          .map((p) => ({ ...p, distance: distanceKm(lastOrigin, p.coordinates) }))
+          .sort((a, b) => a.distance - b.distance)
+        renderList(withDist)
+        renderMarkers(withDist)
+      })
+      container.appendChild(button)
+    })
+  }
+
   // Helyek betöltése és kirajzolása (beleértve a hazibulikat is)
   async function loadPlacesAndRender(origin) {
     lastOrigin = origin
@@ -353,6 +423,11 @@ if (L) {
       })
       
       lastPlaces = combinedPlaces
+      
+      // Kategóriák kinyerése és szűrő feltöltése
+      const categories = extractCategories(combinedPlaces)
+      populateCategoryFilter(categories)
+      
       const withDist = combinedPlaces
         .map((p) => ({ ...p, distance: distanceKm(origin, p.coordinates) }))
         .sort((a, b) => a.distance - b.distance)
@@ -364,11 +439,22 @@ if (L) {
     }
   }
 
+  // Kategória alapú szűrés
+  function filterByCategory(place) {
+    if (!selectedCategory) return true
+    if (!place.type) return false
+    // Ellenőrizzük, hogy a kiválasztott kategória szerepel-e a hely típusában
+    const placeCategories = place.type.split(',').map(c => c.trim())
+    return placeCategories.includes(selectedCategory)
+  }
+
   // Jelölők kirajzolása
   function renderMarkers(list) {
     Object.values(markersByKey).forEach((m) => m.remove())
     Object.keys(markersByKey).forEach((k) => delete markersByKey[k])
-    list.forEach((p) => {
+    // Kategória szűrés alkalmazása a markereken is
+    const filtered = list.filter(filterByCategory)
+    filtered.forEach((p) => {
       const key = placeKeyOf(p)
       // Hazibuli lila markerrel, normál helyek ciánnal
       const markerColor = p.isEvent ? "#a855f7" : "#06b6d4"
@@ -393,7 +479,9 @@ if (L) {
     const favs = readFavs()
     ul.innerHTML = ""
 
-    const filtered = currentTab === "favs" ? list.filter((p) => isFav(p, favs)) : list
+    let filtered = currentTab === "favs" ? list.filter((p) => isFav(p, favs)) : list
+    // Kategória szűrés alkalmazása
+    filtered = filtered.filter(filterByCategory)
 
     filtered.forEach((p) => {
       const li = document.createElement("li")
@@ -536,18 +624,27 @@ if (L) {
       .map((p) => ({ ...p, distance: distanceKm(lastOrigin, p.coordinates) }))
       .sort((a, b) => a.distance - b.distance)
     renderList(withDist)
+    renderMarkers(withDist)
   }
   if (tabNearby) tabNearby.addEventListener("click", () => setTab("nearby"))
   if (tabFavs) tabFavs.addEventListener("click", () => setTab("favs"))
   updateFavCount()
 
+  // Kategória szűrő eseménykezelő már a populateCategoryFilter-ben van kezelve
+
   const randomPlaceBtn = document.getElementById("random-place-btn")
   if (randomPlaceBtn) {
     randomPlaceBtn.addEventListener("click", () => {
-      // véletlenszerű hely kiválasztása a jelenlegi listából
-      if (lastPlaces.length === 0) return
-      const randomIndex = Math.floor(Math.random() * lastPlaces.length)
-      const randomPlace = lastPlaces[randomIndex]
+      // Szűrt lista előállítása (kategória és tab alapján)
+      const favs = readFavs()
+      let filtered = currentTab === "favs" 
+        ? lastPlaces.filter((p) => isFav(p, favs)) 
+        : lastPlaces
+      filtered = filtered.filter(filterByCategory)
+      
+      if (filtered.length === 0) return
+      const randomIndex = Math.floor(Math.random() * filtered.length)
+      const randomPlace = filtered[randomIndex]
 
       // hely kiválasztása és navigálás
       selectPlace(randomPlace)
