@@ -610,6 +610,15 @@ if (L) {
   const tabFavs = document.getElementById("tab-favs")
   function setTab(tab) {
     currentTab = tab
+    
+    // Ha a Kedvencek tabra váltunk, reseteljük a kategória szűrőt
+    if (tab === "favs") {
+      selectedCategory = ""
+      // Újrarajzoljuk a szűrő chip-eket, hogy az "Összes" legyen aktív
+      const categories = extractCategories(lastPlaces)
+      populateCategoryFilter(categories)
+    }
+    
     if (tabNearby && tabFavs) {
       if (tab === "nearby") {
         tabNearby.classList.add("bg-white/10")
